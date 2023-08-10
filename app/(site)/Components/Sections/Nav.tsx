@@ -13,7 +13,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-20 w-full">
-      <Navbar className='bg-neutral-100'>
+      <Navbar className='bg-opacity-80 border-4 border-double border-b-amber-400'>
         <Navbar.Brand href="/">
           <Image alt="Flowbite logo" height="154" src={logo} width="154" />
         </Navbar.Brand>
@@ -27,6 +27,7 @@ export default function Header() {
           </button>
         </div>
         <Navbar.Collapse>
+          <Navbar.Link href='/'>Home</Navbar.Link>
           {pages.map((page) => (
             <Navbar.Link href={`/${page.toLowerCase()}`}>{page}</Navbar.Link>
           ))}
