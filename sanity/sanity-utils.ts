@@ -52,7 +52,8 @@ export async function getPage(slug: string): Promise<Page> {
         _createdAt,
         title,
         "slug": slug.current,
-        content
+        content,
+        section_content
     }`,
     { slug } //this is how you pass in a slug
   );

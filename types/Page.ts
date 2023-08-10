@@ -6,4 +6,5 @@ export type Page = {
     title: string;
     slug: string;
     content: PortableTextBlock[];
+    section_content: PortableTextBlock[];
 }

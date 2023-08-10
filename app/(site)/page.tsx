@@ -1,25 +1,25 @@
-import { getProjects } from '@/sanity/sanity-utils'
-import Image from 'next/image'
-import Link from 'next/link'
+import { getPage } from '@/sanity/sanity-utils'
+import Gallery from './Components/Sections/Gallery'
+import About from './Components/Sections/About'
+import { PortableText } from '@portabletext/react'
 
 export default async function Home() {
-  const projects = await getProjects()
+
+  const page = await getPage('home')
 
   return (
-    <div className='`'>
-      <h1 className="text-7xl font-extrabold">
-        <span className="bg-gradient-to-r from-blue-600 to-sky-900 bg-clip-text text-transparent">
-          Professional Wallpaper Installation
-        </span>
-        
-      </h1>
-      <p className="mt-3 text-xl text-gray-800 mb-2">
-        Fully Insured. Servicing Austin and Central Texas.
-      </p>
-      <p className="mt-3 text-xl text-gray-800 mb-5">
-        Residential & Commercial.
-      </p>
-      
+    <div >
+      <div className='min-h-screen'>
+        <h1 className="text-7xl font-extrabold">
+          <span className="bg-gradient-to-r from-sky-700 to-blue-500 drop-shadow font-extrabold bg-clip-text text-transparent">
+            {page.title}
+          </span>
+        </h1>
+        <PortableText value={page.section_content} />
+      </div>
+
+      <About />
+      <Gallery />
       
 
     </div>

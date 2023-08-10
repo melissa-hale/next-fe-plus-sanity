@@ -1,12 +1,16 @@
 import { getProjects } from '@/sanity/sanity-utils'
 import Image from 'next/image'
 import Link from 'next/link'
+import SectionHeader from '../SectionHeader'
+
 
 export default async function Gallery() {
   const projects = await getProjects()
 
   return (
-      <div className="min-h-screen mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className='min-h-screen'>
+      <SectionHeader slug="gallery" />
+      <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project) => (
           <Link
             // href={`/projects/${project.slug}`}
@@ -29,6 +33,7 @@ export default async function Gallery() {
           </Link>
         ))}
       </div>
+    </div>
   )
 }
 

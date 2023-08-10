@@ -1,10 +1,8 @@
-import { getPages } from '@/sanity/sanity-utils'
 import '../globals.css'
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import Image from 'next/image'
 
-import logo from '../../public/logo.jpeg'
+import Footer from './Components/Sections/Footer'
+import Nav from './Components/Sections/Nav'
 
 export const metadata: Metadata = {
   title: 'Wall Coverings By Don Dye',
@@ -16,37 +14,17 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const pages = await getPages()
-
   return (
     <html lang="en">
-      <body className="max-w-3xl mx-auto py-10">
-        <header className="flex items-center justify-between">
-          <div>
-            <Link href="/" className="text-lg font-bold font-serif">
-              {/* Wall Coverings By Don Dye */}
-              <Image
-                src={logo}
-                alt='logo'
-                width={250}
-                height={300}
-              />
-            </Link>
-            {/* <p>Serving Austin and Central Texas</p> */}
-          </div>
-          <div className="flex items-center gap-5 text-sm text-gray-600">
-            {pages.map((page) => (
-              <Link
-                key={page._id}
-                href={`/${page.slug}`}
-                className="hover:underline"
-              >
-                {page.title}
-              </Link>
-            ))}
-          </div>
-        </header>
-        <main className="py-20">{children}</main>
+      <body className="mx-auto bg-site-bg-image bg-fixed bg-contain">
+        <Nav />
+        <main className="max-w-3xl mx-auto py-20 px-2">{children}</main>
+        <a href="https://www.freepik.com/free-vector/diamond-shape-golden-pattern-vector-background_2395263.htm#query=geometric%20pattern&position=8&from_view=keyword&track=ais">
+          <span className="block text-xs text-right text-gray-400">
+            Background Image by starline on Freepik
+          </span>
+        </a>
+        <Footer />
       </body>
     </html>
   )

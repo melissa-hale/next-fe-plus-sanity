@@ -22,7 +22,13 @@ const page = {
             title: "Content",
             type: "array",
             of: [{ type: "block"}]
-        }
+        },
+        {
+            name: "section_content",
+            title: "Section Content",
+            type: "array",
+            of: [{ type: "block"}]
+        },
     ]
 }
 
