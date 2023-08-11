@@ -15,6 +15,7 @@ export default async function Gallery() {
             alt={project.name}
             width={750}
             height={300}
+            key={project._id}
             className="object-cover rounded-sm border border-gray-500"
           />
         ))}
