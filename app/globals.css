@@ -5,10 +5,13 @@
 #hero-background {
     z-index: -1;
     background-image: url(../public/home-bg.jpg);
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     position: fixed;
     background-size: cover;
     background-position: center;
     opacity: .75;
+    background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
 };
