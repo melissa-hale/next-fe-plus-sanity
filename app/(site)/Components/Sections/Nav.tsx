@@ -25,7 +25,7 @@ export default function Header() {
   ]
 
   return (
-    <header className="sticky top-0 z-20 w-full">
+    <header className="sticky top-0 z-20 w-full bg-site-bg-image bg-fixed bg-repeat">
       <Navbar className="bg-opacity-80 border-4 border-double border-b-amber-400">
         <Navbar.Brand href="/">
           <Image alt="Flowbite logo" height="154" src={logo} width="154" />

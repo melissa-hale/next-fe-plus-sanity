@@ -6,14 +6,14 @@ export default async function Home() {
 
   console.log(page)
   return (
-    <div className="p-5 min-h-screen md:min-h-[80vh] lg:min-h-[70vh] bg-section-bg bg-cover bg-center bg-fixed grid place-items-center h-screen">
-      <div>
-        <h1 className=" bg-amber-100 bg-opacity-70 bg-gradient-to-r from-sky-700 to-blue-500 bg-clip-text text-transparent text-5xl drop-shadow font-extrabold">
+    <div className="p-5 min-h-screen grid place-items-center">
+      <div id="hero-background"></div>
+        <h1 className="text-5xl drop-shadow font-extrabold">
           {page.title}
         </h1>
-        <div className="text-lg text-gray-200 mt-7 mb-7 drop-shadow">
-          <PortableText value={page.section_content} />
-        </div>
+      
+      <div className="text-lg text-gray-200 drop-shadow">
+        <PortableText value={page.section_content} />
       </div>
     </div>
   )
