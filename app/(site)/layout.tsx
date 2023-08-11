@@ -5,8 +5,8 @@ import Footer from './Components/Sections/Footer'
 import Nav from './Components/Sections/Nav'
 
 export const metadata: Metadata = {
-  title: 'Wall Coverings By Don Dye',
-  description: 'Professional Wallpaper Installation Specialist, Don Dye',
+  title: 'Wallcoverings By Don Dye',
+  description: 'Professional Wallpaper Installation Specialist servicing Austin and Central Texas',
 }
 
 export default async function RootLayout({
@@ -16,7 +16,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="mx-auto">
+      <body className="mx-auto font-montserrat">
         <Nav />
         <div id="hero-background"></div>  
         <main className="mx-auto">{children}</main>

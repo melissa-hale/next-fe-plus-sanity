@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'montserrat': ['Montserrat', 'sans-serif']
+      },
       backgroundImage: {
         'site-bg-image': "url('../public/green-wallpaper-bg.webp')",
         'section-bg': "url('../public/wood-bg.jpg')",

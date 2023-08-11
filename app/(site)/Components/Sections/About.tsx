@@ -5,7 +5,7 @@ export default async function About() {
   
     return (
         <SectionHeader slug="about">
-          <div>test</div>
+          {/* <div>test</div> */}
           </SectionHeader>
     )
   }

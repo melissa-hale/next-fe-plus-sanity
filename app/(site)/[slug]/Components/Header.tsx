@@ -11,7 +11,7 @@ export default async function Header({ slug, children }: Props) {
 
   return (
     <div key={page._id} className='max-w-3xl mx-auto min-h-screen p-8 bg-amber-100 bg-opacity-70'>
-      <h1 className="bg-gradient-to-r from-sky-700 to-blue-500 bg-clip-text text-transparent text-5xl drop-shadow font-extrabold">
+      <h1 className=" text-green-900 text-5xl drop-shadow font-extrabold">
         {page.title}
       </h1>
       <div className="text-lg text-gray-700 mt-7 mb-7">

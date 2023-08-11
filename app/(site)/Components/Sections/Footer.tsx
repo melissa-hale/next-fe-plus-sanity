@@ -17,7 +17,7 @@ export default async function Footer() {
 
             <ul className="mb-0 list-none">
               <li className="text-neutral-800">
-                <p>Monday thru Friday,</p>
+                <p>Monday through Friday,</p>
                 <p>8a-5p</p>
               </li>
             </ul>
@@ -31,9 +31,9 @@ export default async function Footer() {
 
             <ul className="mb-0 list-none">
               <li className="text-neutral-800">
-                <p>(713)999-0000</p>
+                <p>(832)788-3667</p>
               </li>
-              <li className="text-neutral-800">
+              <li className="text-neutral-800 underline decoration-sky-500 hover:text-sky-500">
                 <Link href="/contact">Contact Form</Link>
               </li>
             </ul>
