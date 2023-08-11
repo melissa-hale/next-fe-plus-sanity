@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'site-bg-image': "url('../public/bg.jpg')",
+        'site-bg-image': "url('../public/green-wallpaper-bg.webp')",
+        'section-bg': "url('../public/home-bg.jpg')",
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',

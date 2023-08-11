@@ -16,9 +16,9 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="mx-auto bg-site-bg-image bg-fixed bg-contain">
+      <body className="mx-auto bg-site-bg-image bg-fixed bg-repeat">
         <Nav />
-        <main className="max-w-3xl mx-auto py-20 px-2">{children}</main>
+        <main className="mx-auto">{children}</main>
         <a href="https://www.freepik.com/free-vector/diamond-shape-golden-pattern-vector-background_2395263.htm#query=geometric%20pattern&position=8&from_view=keyword&track=ais">
           <span className="block text-xs text-right text-gray-400">
             Background Image by starline on Freepik

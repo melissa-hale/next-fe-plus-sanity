@@ -4,8 +4,8 @@ import SectionHeader from '../SectionHeader'
 export default async function About() {
   
     return (
-      <div className='min-h-screen'>
-        <SectionHeader slug="about" />
-      </div>
+        <SectionHeader slug="about">
+          <div>test</div>
+          </SectionHeader>
     )
   }

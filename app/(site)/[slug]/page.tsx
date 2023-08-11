@@ -13,10 +13,11 @@ export default async function Page({ params }: Props) {
 
   return (
     <div>
-      <Header slug={params.slug} />
+      <Header slug={params.slug}>
       {page.title == 'Gallery' && <Gallery />}
       {page.title == 'Contact' && <ContactForm />}
       {page.title == 'About' && <About />}
+      </Header>
     </div>
   )
 }
