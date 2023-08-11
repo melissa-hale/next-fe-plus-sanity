@@ -7,7 +7,6 @@ export default async function Home() {
   console.log(page)
   return (
     <div className="p-5 min-h-screen grid place-items-center">
-      <div id="hero-background"></div>
         <h1 className="text-5xl drop-shadow font-extrabold">
           {page.title}
         </h1>

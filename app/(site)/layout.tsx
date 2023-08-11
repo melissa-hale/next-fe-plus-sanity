@@ -18,6 +18,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className="mx-auto">
         <Nav />
+        <div id="hero-background"></div>  
         <main className="mx-auto">{children}</main>
         <a href="https://www.freepik.com/free-vector/diamond-shape-golden-pattern-vector-background_2395263.htm#query=geometric%20pattern&position=8&from_view=keyword&track=ais">
           <span className="block text-xs text-right text-gray-400">
