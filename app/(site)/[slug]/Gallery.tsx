@@ -6,29 +6,17 @@ export default async function Gallery() {
   const projects = await getProjects()
 
   return (
-      <div className="min-h-screen mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project) => (
-          <Link
-            // href={`/projects/${project.slug}`}
-            href={'#'}
-            key={project._id}
-            className="hover:scale-105 hover:border-blue-500 transition"
-          >
-            {project.image && (
-              <Image
-                src={project.image}
-                alt={project.name}
-                width={750}
-                height={300}
-                className="object-cover rounded-lg border border-gray-500"
-              />
-            )}
-            {/* <div className="mt-2 font-extrabold bg-gradient-to-r from-orange-400 to-purple-600 bg-clip-text text-transparent">
-              {project.name}
-            </div> */}
-          </Link>
-        ))}
-      </div>
+    <div className="min-h-screen mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {projects.map((project) => (
+        <Image
+          src={project.image}
+          alt={project.name}
+          width={750}
+          height={300}
+          className="object-cover rounded-sm border border-gray-500"
+        />
+      ))}
+    </div>
   )
 }
 
