@@ -10,7 +10,7 @@ export default async function Header({ slug, children }: Props) {
   const page = await getPage(slug)
 
   return (
-    <div key={page._id} className='max-w-3xl mx-auto min-h-screen p-8 bg-amber-100 bg-opacity-70'>
+    <div key={page._id} className='max-w-3xl mx-auto min-h-screen p-8 bg-amber-100 bg-opacity-80'>
       <h1 className=" text-green-900 text-5xl drop-shadow font-extrabold">
         {page.title}
       </h1>
