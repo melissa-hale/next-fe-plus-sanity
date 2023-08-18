@@ -35,7 +35,7 @@ export default function ContactForm({ content }: Props) {
     <div className="min-h-screen">
       <div className="text-lg text-gray-700 mt-7 mb-7">
         <PortableText value={content} components={serializer} /><br />
-        <p className='text-sm'>FYI you can find more information about the process and "what happens next" here.</p>
+        <p className='text-sm'>FYI you can find more information about the process and &quot;what happens next&quot; here.</p>
       </div>
       <form className="w-full max-w-lg">
         <div className="flex flex-wrap -mx-3 mb-2">

@@ -1,19 +1,7 @@
 import { getPage } from '@/sanity/sanity-utils'
-import { PortableText } from '@portabletext/react'
 
 export default async function Process() {
   const page = await getPage('my-process')
-
-  const serializer = {
-    types: {
-      block: ({ value }: any) => {
-        if (value.children.length === 1 && value.children[0].text === '') {
-          return <br />
-        }
-        return <p>{value.children[0].text}</p>
-      },
-    },
-  }
 
   return (
     <div
@@ -36,7 +24,7 @@ export default async function Process() {
                 </span>
                 First contact
               </div>
-              <p>Upon initial contact, we'll set up a time to talk over the phone.</p>
+              <p>Upon initial contact, we&apos;ll set up a time to talk over the phone.</p>
             </div>
             <div className="mb-3 flex flex-col items-center">
             <div className="relative w-28 h-28 bg-green-500 rounded-full flex justify-center items-center text-center p-5 shadow-xl mb-3">
@@ -63,7 +51,7 @@ export default async function Process() {
                 type="button"
                 className="text-gray-700 outline-double bg-amber-300 hover:bg-amber-100 focus:ring-4 focus:outline-none font-medium rounded-md text-sm px-4 py-2 text-center mt-3 mr-3 md:mr-0"
               >
-                Let's go!
+                Let&apos;s go!
               </button>
             </a>
           </div>
