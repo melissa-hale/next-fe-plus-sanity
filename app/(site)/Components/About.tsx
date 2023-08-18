@@ -21,7 +21,7 @@ export default async function About() {
       className="max-w-3xl p-6 mx-auto min-h-full bg-amber-100 bg-opacity-80"
     >
       <div className="p-6">
-        <h1 className=" text-green-900 text-5xl drop-shadow font-extrabold">
+        <h1 className=" text-green-900 text-4xl drop-shadow font-extrabold">
           {page.title}
         </h1>
         <div className="text-lg drop-shadow-md text-gray-800 mt-7 mb-7">
