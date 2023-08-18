@@ -1,22 +1,16 @@
-import { getPage } from '@/sanity/sanity-utils'
-import { PortableText } from '@portabletext/react'
-
 type Props = {
-    slug: string ,
+    title: string
+    id: string
     children?: React.ReactNode
   }  
 
-export default async function Header({ slug, children }: Props) {
-  const page = await getPage(slug)
+export default async function Header({ title, id, children }: Props) {
 
   return (
-    <div key={page._id} className='max-w-3xl mx-auto min-h-screen p-8 bg-amber-100 bg-opacity-80'>
+    <div key={id} className='max-w-3xl mx-auto min-h-screen p-8 bg-amber-100 bg-opacity-80'>
       <h1 className=" text-green-900 text-5xl drop-shadow font-extrabold">
-        {page.title}
+        {title}
       </h1>
-      <div className="text-lg text-gray-700 mt-7 mb-7">
-        <PortableText value={page.content} />
-      </div>
       {children}
     </div>
   )

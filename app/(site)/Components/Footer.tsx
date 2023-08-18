@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-import wialogo from '../../../../public/wialogo.jpg'
+import wialogo from '../../../public/wialogo.jpg'
 
 export default async function Footer() {
   return (

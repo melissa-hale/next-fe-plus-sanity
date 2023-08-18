@@ -9,14 +9,14 @@ type Props = {
 }
 
 export default async function Page({ params }: Props) {
-    const page = await getPage(params.slug)
+  const page = await getPage(params.slug)
 
   return (
     <div>
-      <Header slug={params.slug}>
-      {page.title == 'Gallery' && <Gallery />}
-      {page.title == 'Contact' && <ContactForm />}
-      {page.title == 'About' && <About />}
+      <Header title={page.title} id={page._id}>
+        {page.slug == 'gallery' && <Gallery content={page.content} />}
+        {page.slug == 'contact' && <ContactForm content={page.content} />}
+        {page.slug == 'about' && <About content={page.content} />}
       </Header>
     </div>
   )

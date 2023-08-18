@@ -1,8 +1,8 @@
 import '../globals.css'
 import type { Metadata } from 'next'
 
-import Footer from './Components/Sections/Footer'
-import Nav from './Components/Sections/Nav'
+import Footer from './Components/Footer'
+import Nav from './Components/Nav'
 
 export const metadata: Metadata = {
   title: 'Wallcoverings By Don Dye',

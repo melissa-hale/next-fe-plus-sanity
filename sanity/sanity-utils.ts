@@ -58,5 +58,3 @@ export async function getPage(slug: string): Promise<Page> {
     { slug } //this is how you pass in a slug
   );
 }
-
-// "slug": slug.current <---- this is creating an alias for "slug.current" just as "slug"

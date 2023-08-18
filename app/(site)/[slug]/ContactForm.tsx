@@ -4,8 +4,14 @@ import { getProjects } from '@/sanity/sanity-utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { PortableTextBlock } from 'sanity'
+import { PortableText } from '@portabletext/react'
 
-export default function ContacthtmlForm() {
+type Props = {
+  content: PortableTextBlock[]
+}
+
+export default function ContactForm({ content }: Props) {
   const [htmlFormData, sethtmlFormData] = useState({
     firstName: '',
     lastName: '',
@@ -14,8 +20,23 @@ export default function ContacthtmlForm() {
     comments: '',
   })
 
+  const serializer = {
+    types: {
+      block: ({ value }: any) => {
+        if (value.children.length === 1 && value.children[0].text === '') {
+          return <br />
+        }
+        return <p>{value.children[0].text}</p>
+      },
+    },
+  }
+
   return (
     <div className="min-h-screen">
+      <div className="text-lg text-gray-700 mt-7 mb-7">
+        <PortableText value={content} components={serializer} /><br />
+        <p className='text-sm'>FYI you can find more information about the process and "what happens next" here.</p>
+      </div>
       <form className="w-full max-w-lg">
         <div className="flex flex-wrap -mx-3 mb-2">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -173,7 +194,7 @@ export default function ContacthtmlForm() {
         <div className="md:w-1/3"></div>
         <div className="md:w-2/3">
           <button
-            className="shadow bg-sky-700 hover:bg-sky-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            className="text-gray-600 bg-amber-300 hover:bg-amber-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-4 py-2 text-center shadow"
             type="button"
           >
             Submit

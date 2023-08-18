@@ -16,7 +16,7 @@ export default async function Home() {
             type="button"
             className="text-gray-700 bg-amber-300 hover:bg-amber-100 focus:ring-4 focus:outline-none font-medium rounded-md text-sm px-4 py-2 text-center mt-3 mr-3 md:mr-0"
           >
-            Contact Us
+            Get in touch!
           </button>
         </a>
       </div>
