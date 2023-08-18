@@ -22,7 +22,7 @@ export default async function About() {
     >
       <div className="p-6">
         <h1 className=" text-green-900 text-4xl drop-shadow font-extrabold">
-          {page.title}
+          About Don Dye
         </h1>
         <div className="text-lg drop-shadow-md text-gray-800 mt-7 mb-7">
           <PortableText value={page.section_content} components={serializer} />
@@ -33,7 +33,7 @@ export default async function About() {
               type="button"
               className="text-gray-700 bg-amber-300 hover:bg-amber-100 focus:ring-4 focus:outline-none font-medium rounded-md text-sm px-4 py-2 text-center mt-3 mr-3 md:mr-0"
             >
-              More about Don
+              Read More
             </button>
           </a>
         </div>
