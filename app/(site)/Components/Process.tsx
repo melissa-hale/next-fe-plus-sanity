@@ -8,7 +8,7 @@ export default async function Process() {
       key={page._id}
       className="max-w-3xl p-6 mx-auto min-h-full bg-amber-100 bg-opacity-80"
     >
-      <div className="text-xl text-green-900 mb-3 p-10 bg-gray-300 bg-opacity-50 rounded-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
+      <div className="text-xl text-green-900 mb-3 p-10 bg-gray-200 bg-opacity-60 rounded-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
         <div className="p-6">
           <div className='pb-3'>
             <p className="text-base pl-1 text-gray-800">What to expect</p>
