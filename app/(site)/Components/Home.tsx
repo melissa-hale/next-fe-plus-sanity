@@ -10,14 +10,14 @@ export default async function Home() {
         // if (value.children.length === 1 && value.children[0].text === '') {
         //   return <br />
         // }
-        return <p className="pb-1">{value.children[0].text}</p>
+        return <p className="pb-1 italic">{value.children[0].text}</p>
       },
     },
   }
 
   return (
     <div className="mx-auto max-w-5xl px-6 min-h-screen flex justify-center flex-col">
-      <div className="text-xl text-green-900 mb-60 p-12 bg-gray-200 bg-opacity-60 rounded-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
+      <div className="text-xl text-green-900 mb-60 p-8 bg-gray-200 bg-opacity-60 rounded-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
         <h1 className="text-5xl drop-shadow pb-3 font-extrabold">{page.title}</h1>
         <div className='text-base font-medium drop-shadow-md text-gray-700 pl-1'>
           <PortableText value={page.section_content} components={serializer}/>
