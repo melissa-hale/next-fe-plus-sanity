@@ -32,7 +32,7 @@ export default function Header() {
             {' '}
             <button
               type="button"
-              className="text-gray-600 bg-amber-300 hover:bg-amber-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-4 py-2 text-center mr-3 md:mr-0"
+              className="text-gray-600 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-4 py-2 text-center mr-3 md:mr-0"
             >
               Contact Us
             </button>
