@@ -1,5 +1,11 @@
 import { getPage } from '@/sanity/sanity-utils'
 import { PortableText } from '@portabletext/react'
+import { Ibarra_Real_Nova } from '@next/font/google'
+
+const headerFont = Ibarra_Real_Nova({
+  subsets: ['latin'],
+  variable: '--font-dancing'
+})
 
 export default async function About() {
   const page = await getPage('about')
@@ -21,7 +27,7 @@ export default async function About() {
       className="max-w-3xl p-6 mx-auto min-h-full bg-amber-100 bg-opacity-80"
     >
       <div className="p-6">
-        <h1 className=" text-green-900 text-4xl drop-shadow font-extrabold">
+        <h1 className={`${headerFont.variable} font-headers text-green-900 text-4xl drop-shadow font-extrabold`}>
           About Don Dye
         </h1>
         <div className="text-lg drop-shadow-md text-gray-800 mt-7 mb-7">

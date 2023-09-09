@@ -34,8 +34,8 @@ export default function ContactForm({ content }: Props) {
   return (
     <div className="min-h-screen">
       <div className="text-lg text-gray-700 mt-7 mb-7">
-        <PortableText value={content} components={serializer} /><br />
-        <p className='text-sm'>FYI you can find more information about the process and &quot;what happens next&quot; here.</p>
+        <PortableText value={content} components={serializer} />  
+        
       </div>
       <form className="w-full max-w-lg">
         <div className="flex flex-wrap -mx-3 mb-2">
@@ -47,7 +47,7 @@ export default function ContactForm({ content }: Props) {
               First Name
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-first-name"
               type="text"
               placeholder="Jane"
@@ -77,7 +77,7 @@ export default function ContactForm({ content }: Props) {
               Email
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-email"
               type="text"
               placeholder="Jane@email.com"

@@ -10,7 +10,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'montserrat': ['Montserrat', 'sans-serif']
+        'montserrat': ['Montserrat', 'sans-serif'],
+        'sans': ['var(--font-inter)'],
+        'headers': ['var(--font-dancing)']
       },
       backgroundImage: {
         'site-bg-image': "url('../public/green-wallpaper-bg.webp')",

@@ -1,8 +1,14 @@
 import '../globals.css'
 import type { Metadata } from 'next'
+import { Catamaran, Dancing_Script } from '@next/font/google'
 
 import Footer from './Components/Footer'
 import Nav from './Components/Nav'
+
+const bodyFont = Catamaran({
+  subsets: ['latin'],
+  variable: '--font-inter'
+});
 
 export const metadata: Metadata = {
   title: 'Wallcoverings By Don Dye',
@@ -16,7 +22,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="mx-auto font-montserrat">
+      <body className={`mx-auto ${bodyFont.variable} font-sans`}>
         <Nav />
         <div id="hero-background"></div>  
         <main className="mx-auto">{children}</main>

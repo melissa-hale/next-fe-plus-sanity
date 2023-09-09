@@ -12,7 +12,7 @@ export default async function Landing() {
       <Home />
       <Gallery projects={projects} />
       <About />
-      <Process />
+      {/* <Process /> */}
     </div>
   )
 }
