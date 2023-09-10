@@ -22,6 +22,7 @@
     "next-sanity": "^5.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.46.1",
     "sanity": "^3.14.2",
     "typescript": "5.1.6"
   },
