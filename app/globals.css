@@ -18,10 +18,10 @@
     margin: 0;
 };
 
-body {
-    padding:0;
-    margin:0;
-};
+body {    
+    margin: 0 !important;
+    padding: 0 !important;
+}
 
 * {
     box-sizing: border-box;
