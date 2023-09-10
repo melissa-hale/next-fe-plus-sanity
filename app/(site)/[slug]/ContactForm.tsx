@@ -2,7 +2,6 @@
 
 import { PortableTextBlock } from "sanity";
 import { PortableText } from "@portabletext/react";
-import { PatternFormat } from "react-number-format";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Props = {
