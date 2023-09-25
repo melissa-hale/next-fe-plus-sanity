@@ -3,6 +3,7 @@
 import { PortableTextBlock } from "sanity";
 import { PortableText } from "@portabletext/react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
 
 type Props = {
   content: PortableTextBlock[];
@@ -21,12 +22,69 @@ interface IFormInput {
 }
 
 export default function ContactForm({ content }: Props) {
+  const [loading, setLoading] = useState(false);
+  // Enum for our statuses
+  const contactStatuses = {
+    loading: "loading",
+    submitted: "submitted",
+    error: "error",
+  };
+  // Status of what's happening or happened in the component
+  const [status, setStatus] = useState<string | undefined>();
+
+  const formOptions = {
+    mode: "onBlur" as const,
+    reValidateMode: "onBlur" as const,
+  };
+
   const {
     register,
+    reset,
     formState: { errors },
     handleSubmit,
-  } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  } = useForm<IFormInput>(formOptions);
+
+  const onSubmit: SubmitHandler<IFormInput> = (data, e) => {
+    // Used to Abort a long running fetch.
+    const abortLongFetch = new AbortController();
+    // Abort after 7 seconds.
+    const abortTimeoutId = setTimeout(() => abortLongFetch.abort(), 7000);
+
+     // Don't want to actually submit the form
+     e.preventDefault();
+
+    // console.log(data);
+    setStatus(contactStatuses.loading);
+    fetch("/api/contact", {
+      signal: abortLongFetch.signal,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (res.ok) {
+          // If we got an 'ok' response from fetch,
+          // clear the AbortController timeout
+          clearTimeout(abortTimeoutId);
+          return res.json();
+        }
+        console.log('errorrrrr:', res)
+        throw new Error("Whoops! Error sending email.");
+      })
+      .then((res) => {
+        // On a successful search, set the status to 'submitted' and
+        // reset the fields
+        setStatus(contactStatuses.submitted);
+        reset();
+      })
+      .catch((err) => {
+        // There was an error, catch it and set the status to 'error'
+        console.log("this is the erro:", err);
+        setStatus(contactStatuses.error);
+      });
+  };
 
   const serializer = {
     types: {
@@ -45,6 +103,19 @@ export default function ContactForm({ content }: Props) {
         <PortableText value={content} components={serializer} />
       </div>
       <form className="w-full max-w-lg" onSubmit={handleSubmit(onSubmit)}>
+        {/* If there was an error, notify the user */}
+        {status === contactStatuses.error ? (
+          <div className="alert alert-danger">
+            Oops, there was an error sending your email. Please try again.
+          </div>
+        ) : null}
+
+        {/* If the form was submitted successfully, notify the user */}
+        {status === contactStatuses.submitted ? (
+          <div className="alert alert-success contact_msg" role="alert">
+            Your message was sent successfully.
+          </div>
+        ) : null}
         <div className="flex flex-wrap -mx-3 mb-2">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
@@ -138,7 +209,7 @@ export default function ContactForm({ content }: Props) {
             <input
               {...register("phone", {
                 required: true,
-                maxLength: 20
+                maxLength: 20,
               })}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-phone"
@@ -232,7 +303,11 @@ export default function ContactForm({ content }: Props) {
               Zip Code
             </label>
             <input
-              {...register("zipcode", { required: true, maxLength: 5, minLength: 5 })}
+              {...register("zipcode", {
+                required: true,
+                maxLength: 5,
+                minLength: 5,
+              })}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-zip"
               type="text"
