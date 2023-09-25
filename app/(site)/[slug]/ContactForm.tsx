@@ -51,7 +51,7 @@ export default function ContactForm({ content }: Props) {
     const abortTimeoutId = setTimeout(() => abortLongFetch.abort(), 7000);
 
      // Don't want to actually submit the form
-     e.preventDefault();
+     e?.preventDefault();
 
     // console.log(data);
     setStatus(contactStatuses.loading);
