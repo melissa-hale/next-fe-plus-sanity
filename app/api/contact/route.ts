@@ -21,17 +21,17 @@ export async function POST(req: Request) {
   });
 
   const messageBody = `<div>
-        <p>Name: ${request.firstName} ${request.lastName}</p>
-        <p>Email: ${request.email}</p>
-        <p>Phone: ${request.phone}</p>
-        <p>Address: ${request.address}, ${request.city}, ${request.state}, ${request.zipcode}</p>
+        <p>Name: ${request.fName} ${request.lName}</p>
+        <p>Email: ${request.em}</p>
+        <p>Phone: ${request.phn}</p>
+        <p>Address: ${request.adr}, ${request.cty}, ${request.st}, ${request.zp}</p>
         <p>Comments: ${request.comments}</p>
         </div>`
 
   const mailOptions: nodemailer.SendMailOptions = {
     from: process.env.NEXT_PUBLIC_EMAIL_USER, // sender address
     to: process.env.NEXT_PUBLIC_EMAIL_SEND_TO, // list of receivers
-    subject: `New Message - ${request.firstName} ${request.lastName}`, // Subject line
+    subject: `New Message - ${request.fName} ${request.lName}`, // Subject line
     text: request.comments, // plain text body
     html: messageBody
   };

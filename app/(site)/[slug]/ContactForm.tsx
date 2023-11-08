@@ -13,14 +13,14 @@ type Props = {
 };
 
 interface IFormInput {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  address: string;
-  city: string;
-  state: string;
-  zipcode: string;
+  fName: string;
+  lName: string;
+  em: string;
+  phn: string;
+  adr: string;
+  cty: string;
+  st: string;
+  zp: string;
   comments: string;
 }
 
@@ -126,19 +126,19 @@ export default function ContactForm({ content }: Props) {
                       First Name
                     </label>
                     <input
-                      {...register("firstName", {
+                      {...register("fName", {
                         required: true,
                         maxLength: 20,
                         pattern: /^[A-Za-z]+$/i,
                       })}
-                      aria-invalid={errors.firstName ? "true" : "false"}
+                      aria-invalid={errors.fName ? "true" : "false"}
                       className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-first-name"
                       type="text"
                       placeholder="Jane"
                       autoComplete="off"
                     />
-                    {errors.firstName?.type === "required" && (
+                    {errors.fName?.type === "required" && (
                       <p className="text-red-500" role="alert">
                         * First name is required
                       </p>
@@ -152,19 +152,19 @@ export default function ContactForm({ content }: Props) {
                       Last Name
                     </label>
                     <input
-                      {...register("lastName", {
+                      {...register("lName", {
                         required: true,
                         maxLength: 20,
                         pattern: /^[A-Za-z]+$/i,
                       })}
-                      aria-invalid={errors.lastName ? "true" : "false"}
+                      aria-invalid={errors.lName ? "true" : "false"}
                       className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-last-name"
                       type="text"
                       placeholder="Doe"
                       autoComplete="off"
                     />
-                    {errors.lastName?.type === "required" && (
+                    {errors.lName?.type === "required" && (
                       <p className="text-red-500" role="alert">
                         * Last name is required
                       </p>
@@ -180,24 +180,24 @@ export default function ContactForm({ content }: Props) {
                       Email
                     </label>
                     <input
-                      {...register("email", {
+                      {...register("em", {
                         required: true,
                         maxLength: 20,
                         pattern: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
                       })}
-                      aria-invalid={errors.email ? "true" : "false"}
+                      aria-invalid={errors.em ? "true" : "false"}
                       className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-email"
                       type="text"
                       placeholder="Jane@email.com"
                       autoComplete="off"
                     />
-                    {errors.email?.type === "required" && (
+                    {errors.em?.type === "required" && (
                       <p className="text-red-500" role="alert">
                         * Email is required
                       </p>
                     )}
-                    {errors.email?.type === "pattern" && (
+                    {errors.em?.type === "pattern" && (
                       <p className="text-red-500" role="alert">
                         * Please enter a valid email address
                       </p>
@@ -211,7 +211,7 @@ export default function ContactForm({ content }: Props) {
                       Phone
                     </label>
                     <input
-                      {...register("phone", {
+                      {...register("phn", {
                         required: true,
                         maxLength: 20,
                       })}
@@ -221,7 +221,7 @@ export default function ContactForm({ content }: Props) {
                       placeholder="(555)555-5555"
                       autoComplete="off"
                     />
-                    {errors.phone?.type === "required" && (
+                    {errors.phn?.type === "required" && (
                       <p className="text-red-500" role="alert">
                         * Phone is required
                       </p>
@@ -237,7 +237,7 @@ export default function ContactForm({ content }: Props) {
                       Address
                     </label>
                     <input
-                      {...register("address", {
+                      {...register("adr", {
                         required: true,
                         maxLength: 40,
                       })}
@@ -247,7 +247,7 @@ export default function ContactForm({ content }: Props) {
                       placeholder="123 Main Street"
                       autoComplete="off"
                     />
-                    {errors.address?.type === "required" && (
+                    {errors.adr?.type === "required" && (
                       <p className="text-red-500" role="alert">
                         * Address is required
                       </p>
@@ -266,14 +266,14 @@ export default function ContactForm({ content }: Props) {
                       City
                     </label>
                     <input
-                      {...register("city", { required: true, maxLength: 20 })}
+                      {...register("cty", { required: true, maxLength: 20 })}
                       className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-city"
                       type="text"
                       placeholder="Austin"
                       autoComplete="off"
                     />
-                    {errors.city?.type === "required" && (
+                    {errors.cty?.type === "required" && (
                       <p className="text-red-500" role="alert">
                         * City is required
                       </p>
@@ -288,21 +288,12 @@ export default function ContactForm({ content }: Props) {
                     </label>
                     <div className="relative">
                       <select
-                        {...register("state")}
+                        {...register("st")}
                         className="placeholder-gray-300 block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
                       >
                         <option>Texas</option>
                       </select>
-                      {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <svg
-                                      className="fill-current h-4 w-4"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 20 20"
-                                    >
-                                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                    </svg>
-                                  </div> */}
                     </div>
                   </div>
                   <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -313,7 +304,7 @@ export default function ContactForm({ content }: Props) {
                       Zip Code
                     </label>
                     <input
-                      {...register("zipcode", {
+                      {...register("zp", {
                         required: true,
                         maxLength: 5,
                         minLength: 5,
@@ -324,17 +315,17 @@ export default function ContactForm({ content }: Props) {
                       placeholder="78758"
                       autoComplete="off"
                     />
-                    {errors.zipcode?.type === "required" && (
+                    {errors.zp?.type === "required" && (
                       <p className="text-red-500" role="alert">
                         * Zip Code is required
                       </p>
                     )}
-                    {errors.zipcode?.type === "maxLength" && (
+                    {errors.zp?.type === "maxLength" && (
                       <p className="text-red-500" role="alert">
                         * Please enter a valid 5 digit zip code
                       </p>
                     )}
-                    {errors.zipcode?.type === "minLength" && (
+                    {errors.zp?.type === "minLength" && (
                       <p className="text-red-500" role="alert">
                         * Please enter a valid 5 digit zip code
                       </p>
