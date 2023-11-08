@@ -116,6 +116,7 @@ export default function ContactForm({ content }: Props) {
               <form
                 className="w-full center max-w-lg mx-auto"
                 onSubmit={handleSubmit(onSubmit)}
+                autoComplete="off"
               >
                 <div className="flex flex-wrap -mx-3 mb-2">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
