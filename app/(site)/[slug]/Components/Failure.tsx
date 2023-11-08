@@ -10,7 +10,7 @@ const headerFont = Ibarra_Real_Nova({
 
 export default function Failure() {
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-amber-100 bg-opacity-80 flex flex-col justify-center items-center">
+    <div className="max-w-3xl mx-auto p-8 bg-opacity-80 flex flex-col justify-center items-center">
       <Image src="/failed.png" width={200} height={200} alt="Failure" />
       <h1
         className={`${headerFont.variable} font-headers text-red-900 text-3xl drop-shadow font-extrabold`}
