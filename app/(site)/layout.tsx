@@ -4,6 +4,7 @@ import { Catamaran, Dancing_Script } from '@next/font/google'
 
 import Footer from './Components/Footer'
 import Nav from './Components/Nav'
+import { Analytics } from '@vercel/analytics/react';
 
 const bodyFont = Catamaran({
   subsets: ['latin'],
@@ -32,6 +33,7 @@ export default async function RootLayout({
           </span>
         </a>
         <Footer />
+        <Analytics />
       </body>
     </html>
   )
