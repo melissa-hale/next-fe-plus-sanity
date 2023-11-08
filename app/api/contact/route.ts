@@ -13,7 +13,6 @@ export async function POST(req: Request) {
     host: process.env.NEXT_PUBLIC_EMAIL_HOST,
     port: 465,
     secure: true,
-    // service: 'yahoo',
     auth: {
       user: process.env.NEXT_PUBLIC_EMAIL_USER,
       pass: process.env.NEXT_PUBLIC_EMAIL_PASS
@@ -22,16 +21,17 @@ export async function POST(req: Request) {
   });
 
   const messageBody = `<div>
-        <p>First Name: ${request.firstName}</p>
-        <p>Last Name: ${request.lastName}</p>
+        <p>Name: ${request.firstName} ${request.lastName}</p>
         <p>Email: ${request.email}</p>
+        <p>Phone: ${request.phone}</p>
+        <p>Address: ${request.address}, ${request.city}, ${request.state}, ${request.zipcode}</p>
         <p>Comments: ${request.comments}</p>
         </div>`
 
   const mailOptions: nodemailer.SendMailOptions = {
     from: process.env.NEXT_PUBLIC_EMAIL_USER, // sender address
     to: process.env.NEXT_PUBLIC_EMAIL_SEND_TO, // list of receivers
-    subject: 'New Contact', // Subject line
+    subject: `New Message - ${request.firstName} ${request.lastName}`, // Subject line
     text: request.comments, // plain text body
     html: messageBody
   };
