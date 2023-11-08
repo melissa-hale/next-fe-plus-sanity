@@ -116,7 +116,6 @@ export default function ContactForm({ content }: Props) {
               <form
                 className="w-full center max-w-lg mx-auto"
                 onSubmit={handleSubmit(onSubmit)}
-                autoComplete="off"
               >
                 <div className="flex flex-wrap -mx-3 mb-2">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -137,6 +136,7 @@ export default function ContactForm({ content }: Props) {
                       id="grid-first-name"
                       type="text"
                       placeholder="Jane"
+                      autoComplete="off"
                     />
                     {errors.firstName?.type === "required" && (
                       <p className="text-red-500" role="alert">
@@ -162,6 +162,7 @@ export default function ContactForm({ content }: Props) {
                       id="grid-last-name"
                       type="text"
                       placeholder="Doe"
+                      autoComplete="off"
                     />
                     {errors.lastName?.type === "required" && (
                       <p className="text-red-500" role="alert">
@@ -189,6 +190,7 @@ export default function ContactForm({ content }: Props) {
                       id="grid-email"
                       type="text"
                       placeholder="Jane@email.com"
+                      autoComplete="off"
                     />
                     {errors.email?.type === "required" && (
                       <p className="text-red-500" role="alert">
@@ -217,6 +219,7 @@ export default function ContactForm({ content }: Props) {
                       id="grid-phone"
                       type="text"
                       placeholder="(555)555-5555"
+                      autoComplete="off"
                     />
                     {errors.phone?.type === "required" && (
                       <p className="text-red-500" role="alert">
@@ -242,6 +245,7 @@ export default function ContactForm({ content }: Props) {
                       id="grid-address"
                       type="text"
                       placeholder="123 Main Street"
+                      autoComplete="off"
                     />
                     {errors.address?.type === "required" && (
                       <p className="text-red-500" role="alert">
@@ -267,6 +271,7 @@ export default function ContactForm({ content }: Props) {
                       id="grid-city"
                       type="text"
                       placeholder="Austin"
+                      autoComplete="off"
                     />
                     {errors.city?.type === "required" && (
                       <p className="text-red-500" role="alert">
@@ -317,6 +322,7 @@ export default function ContactForm({ content }: Props) {
                       id="grid-zip"
                       type="text"
                       placeholder="78758"
+                      autoComplete="off"
                     />
                     {errors.zipcode?.type === "required" && (
                       <p className="text-red-500" role="alert">
