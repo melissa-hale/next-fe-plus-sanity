@@ -183,7 +183,7 @@ export default function ContactForm({ content }: Props) {
                       {...register("em", {
                         required: true,
                         maxLength: 20,
-                        pattern: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
+                        pattern: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,}$/i,
                       })}
                       aria-invalid={errors.em ? "true" : "false"}
                       className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
