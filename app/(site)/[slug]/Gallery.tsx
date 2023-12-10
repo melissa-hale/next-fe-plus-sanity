@@ -28,6 +28,7 @@ export default async function Gallery({ content }: Props) {
       </div>
       {projects.map((project) => (
         <Image
+          key={project._id}
           src={project.image}
           alt={project.name}
           width={1750}
