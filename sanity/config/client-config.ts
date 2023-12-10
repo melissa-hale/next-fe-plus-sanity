@@ -1,5 +1,5 @@
 const config = {
-    projectId: 'ffc33v6b',
+    projectId: `${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}`,
     dataset: 'production',
     apiVersion: '2023-07-15',
 };

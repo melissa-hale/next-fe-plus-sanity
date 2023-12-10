@@ -1,4 +1,5 @@
 import { getProjects } from '@/sanity/sanity-utils'
+// import { useState } from 'react';
 import Image from 'next/image'
 import { PortableTextBlock } from 'sanity'
 import { PortableText } from '@portabletext/react'
@@ -8,7 +9,22 @@ type Props = {
 }
 
 export default async function Gallery({ content }: Props) {
-  const projects = await getProjects()
+  const projects = await getProjects();
+  // const [selectedImage, setSelectedImage] = useState(null);
+  // const [isModalOpen, setModalOpen] = useState(false);
+
+
+  // // Open modal with the clicked image
+  // const openModal = (image) => {
+  //   setSelectedImage(image);
+  //   setModalOpen(true);
+  // };
+
+  // // Close modal
+  // const closeModal = () => {
+  //   setSelectedImage(null);
+  //   setModalOpen(false);
+  // };
 
   const serializer = {
     types: {
@@ -27,14 +43,16 @@ export default async function Gallery({ content }: Props) {
         <PortableText value={content} components={serializer} />
       </div>
       {projects.map((project) => (
+        // <div key={project._id} onClick={() => openModal(project.image)}>
+          <div>
         <Image
           src={project.image}
           alt={project.name}
-          width={750}
-          height={300}
-          key={project._id}
-          className="object-cover rounded-sm border border-gray-500"
+          width={1750}
+          height={1500}
+          className="object-cover rounded-sm border border-gray-500 cursor-pointer"
         />
+      </div>
         
       ))}
     </div>
