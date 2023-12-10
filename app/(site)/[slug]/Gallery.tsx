@@ -42,9 +42,9 @@ export default async function Gallery({ content }: Props) {
       <div className="text-lg text-gray-700 mt-7 mb-7">
         <PortableText value={content} components={serializer} />
       </div>
-      {projects.map((project) => (
+      {projects.map((project, i) => (
         // <div key={project._id} onClick={() => openModal(project.image)}>
-          <div>
+          <div key={i}>
         <Image
           src={project.image}
           alt={project.name}
