@@ -22,7 +22,7 @@ export default async function About() {
   }
 
   return (
-    <div
+    <section
       key={page._id}
       className="max-w-3xl p-6 mx-auto min-h-full bg-amber-100 bg-opacity-80"
     >
@@ -44,6 +44,6 @@ export default async function About() {
           </a>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

@@ -8,7 +8,7 @@ type Props = {
 }
 
 export default async function Gallery({ content }: Props) {
-  const projects = await getProjects()
+  const projects = await getProjects();
 
   const serializer = {
     types: {
@@ -28,14 +28,13 @@ export default async function Gallery({ content }: Props) {
       </div>
       {projects.map((project) => (
         <Image
+          key={project._id}
           src={project.image}
           alt={project.name}
-          width={750}
-          height={300}
-          key={project._id}
-          className="object-cover rounded-sm border border-gray-500"
+          width={1750}
+          height={1500}
+          className="object-cover rounded-sm border border-gray-500 cursor-pointer"
         />
-        
       ))}
     </div>
   )
