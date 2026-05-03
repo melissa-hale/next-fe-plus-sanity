@@ -1,13 +1,15 @@
-// app/(site)/Components/StructuredData.tsx
 export function LocalBusinessSchema() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
     "name": "Wallcoverings By Don Dye",
     "description": "Professional wallpaper installation specialist serving Austin and Central Texas",
-    "url": "https://www.wallcoveringsbydondye.com", // UPDATE WITH YOUR ACTUAL DOMAIN
+    "url": "https://www.wallcoveringsbydondye.com",
     "telephone": "(832)788-3667",
     "priceRange": "$$",
+    "image": "https://www.wallcoveringsbydondye.com/home-bg.jpg",
+    "paymentAccepted": "Cash, Check, Credit Card",
+    "hasMap": "https://maps.google.com/?q=Wallcoverings+By+Don+Dye+Austin+TX",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Austin",
@@ -20,26 +22,22 @@ export function LocalBusinessSchema() {
       "longitude": "-97.7431"
     },
     "areaServed": [
-      {
-        "@type": "City",
-        "name": "Austin",
-        "addressRegion": "TX"
-      },
-      {
-        "@type": "AdministrativeArea", 
-        "name": "Central Texas"
-      }
+      { "@type": "City", "name": "Austin", "addressRegion": "TX" },
+      { "@type": "City", "name": "Round Rock", "addressRegion": "TX" },
+      { "@type": "City", "name": "Cedar Park", "addressRegion": "TX" },
+      { "@type": "City", "name": "Georgetown", "addressRegion": "TX" },
+      { "@type": "City", "name": "Pflugerville", "addressRegion": "TX" },
+      { "@type": "City", "name": "Kyle", "addressRegion": "TX" },
+      { "@type": "City", "name": "Buda", "addressRegion": "TX" },
+      { "@type": "City", "name": "San Marcos", "addressRegion": "TX" }
     ],
     "serviceType": [
       "Wallpaper Installation",
-      "Wall Covering Installation", 
+      "Wall Covering Installation",
       "Wallpaper Removal",
       "Custom Wall Treatments"
     ],
     "openingHours": "Mo-Fr 08:00-17:00",
-    "sameAs": [
-      "https://www.wallcoveringinstallers.org/"
-    ],
     "hasCredential": {
       "@type": "EducationalOccupationalCredential",
       "credentialCategory": "Professional Accreditation",

@@ -17,8 +17,6 @@
     "@vercel/analytics": "^1.1.1",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
-    "flowbite": "^1.8.1",
-    "flowbite-react": "^0.5.0",
     "next": "13.4.10",
     "next-sanity": "^5.1.2",
     "nodemailer": "^6.9.5",
@@ -26,6 +24,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.46.1",
     "sanity": "^3.14.2",
+    "sharp": "^0.34.5",
     "typescript": "5.1.6"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 'use client'
 
-import { Carousel, Flowbite } from 'flowbite-react'
 import Image from 'next/image'
+import { useEffect, useRef } from 'react'
 
 type Props = {
   projects: Array<{
@@ -14,44 +14,46 @@ type Props = {
 }
 
 export default function Gallery({ projects }: Props) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const indexRef = useRef(0)
+
+  useEffect(() => {
+    const container = scrollRef.current
+    if (!container || projects.length <= 1) return
+
+    const interval = setInterval(() => {
+      const next = (indexRef.current + 1) % projects.length
+      container.scrollTo({ left: container.offsetWidth * next, behavior: 'smooth' })
+      indexRef.current = next
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [projects.length])
+
   return (
-    <Flowbite
-      theme={{
-        theme: {
-          carousel: {
-            scrollContainer: {
-              base:
-                'flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-auto rounded-lg',
-            },
-          },
-        },
-      }}
-    >
-      <div className="max-w-screen mx-auto min-h-600">
-        <div className="max-w-3xl mx-auto">
-          {/* <div className="p-5">
-            <h1 className=" text-green-900 text-5xl drop-shadow font-extrabold">
-              Gallery
-            </h1> */}
-          {/* <div className="text-lg drop-shadow-md text-gray-800">
-            <p className='drop-shadow font-semibold'>hi</p>
-          </div> */}
-          {/* </div> */}
-          <div className="h-128 p-3">
-            <Carousel slideInterval={5000}>
-              {projects.map((project) => (
-                <img
+    <div className="max-w-screen mx-auto">
+      <div className="max-w-3xl mx-auto">
+        <div className="h-128 p-3">
+          <div
+            ref={scrollRef}
+            className="flex h-full overflow-x-scroll snap-x snap-mandatory rounded-lg"
+            style={{ scrollbarWidth: 'none' }}
+          >
+            {projects.map((project, index) => (
+              <div key={project._id} className="relative flex-none w-full h-full snap-start">
+                <Image
                   src={project.image}
                   alt={project.name}
-                  key={project._id}
-                  onError={() =>
-                    console.error(`Failed to load image: ${project.image}`)
-                  }
+                  fill
+                  className="object-cover rounded-lg"
+                  priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, 768px"
                 />
-              ))}
-            </Carousel>
+              </div>
+            ))}
           </div>
-          <div className='flex justify-center pb-10'>
+        </div>
+        <div className='flex justify-center pb-10'>
           <a href="/gallery">
             <button
               type="button"
@@ -60,9 +62,8 @@ export default function Gallery({ projects }: Props) {
               View My Work
             </button>
           </a>
-          </div>
         </div>
       </div>
-    </Flowbite>
+    </div>
   )
 }

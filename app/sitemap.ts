@@ -1,51 +1,61 @@
-// app/sitemap.ts
 import { MetadataRoute } from 'next'
 import { getPages, getProjects } from '@/sanity/sanity-utils'
 
+const BASE_URL = 'https://www.wallcoveringsbydondye.com'
+
+const CITY_SLUGS = [
+  'austin',
+  'round-rock',
+  'cedar-park',
+  'georgetown',
+  'pflugerville',
+  'kyle',
+  'buda',
+  'san-marcos',
+  'lakeway',
+  'dripping-springs',
+  'leander',
+  'manor',
+  'westlake-hills',
+]
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://www.wallcoveringsbydondye.com' // UPDATE WITH YOUR ACTUAL DOMAIN
-  
   try {
-    const pages = await getPages()
-    const projects = await getProjects()
-    
-    // Static routes - Next.js sitemap only needs url and lastModified
-    const staticRoutes = [
-      {
-        url: baseUrl,
-        lastModified: new Date(),
-      },
-      {
-        url: `${baseUrl}/about`,
-        lastModified: new Date(),
-      },
-      {
-        url: `${baseUrl}/contact`,
-        lastModified: new Date(),
-      },
-      {
-        url: `${baseUrl}/gallery`,
-        lastModified: new Date(),
-      }
+    const [pages, projects] = await Promise.all([getPages(), getProjects()])
+
+    const pageBySlug = Object.fromEntries(pages.map((p) => [p.slug, p]))
+    const lastMod = (slug: string) =>
+      pageBySlug[slug] ? new Date(pageBySlug[slug]._updatedAt) : new Date()
+
+    const staticRoutes: MetadataRoute.Sitemap = [
+      { url: BASE_URL,                lastModified: lastMod('home') },
+      { url: `${BASE_URL}/about`,     lastModified: lastMod('about') },
+      { url: `${BASE_URL}/contact`,   lastModified: lastMod('contact') },
+      { url: `${BASE_URL}/gallery`,   lastModified: lastMod('gallery') },
     ]
 
-    // Dynamic pages from Sanity (if you add more pages later)
-    const pageRoutes = pages
-      .filter(page => !['about', 'contact', 'gallery', 'home'].includes(page.slug))
+    const pageRoutes: MetadataRoute.Sitemap = pages
+      .filter((page) => !['about', 'contact', 'gallery', 'home'].includes(page.slug))
       .map((page) => ({
-        url: `${baseUrl}/${page.slug}`,
-        lastModified: new Date(page._createdAt),
+        url: `${BASE_URL}/${page.slug}`,
+        lastModified: new Date(page._updatedAt),
       }))
 
-    return [...staticRoutes, ...pageRoutes]
+    const projectRoutes: MetadataRoute.Sitemap = projects
+      .filter((p) => p.slug)
+      .map((project) => ({
+        url: `${BASE_URL}/gallery/${project.slug}`,
+        lastModified: new Date(project._updatedAt ?? project._createdAt),
+      }))
+
+    const cityRoutes: MetadataRoute.Sitemap = CITY_SLUGS.map((city) => ({
+      url: `${BASE_URL}/service-area/${city}`,
+      lastModified: new Date('2026-05-02'),
+    }))
+
+    return [...staticRoutes, ...pageRoutes, ...projectRoutes, ...cityRoutes]
   } catch (error) {
     console.error('Error generating sitemap:', error)
-    // Return minimal sitemap if there's an error
-    return [
-      {
-        url: baseUrl,
-        lastModified: new Date(),
-      }
-    ]
+    return [{ url: BASE_URL, lastModified: new Date() }]
   }
 }

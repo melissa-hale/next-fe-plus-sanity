@@ -8,12 +8,12 @@ export default async function Footer() {
     // <!-- Footer container -->
     <footer className="bg-neutral-100 text-center lg:text-left">
       <div className="container p-6">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
           {/* <!--First links section--> */}
           <div className="mb-6">
-            <h5 className="mb-2.5 font-bold text-neutral-800">
+            <h3 className="mb-2.5 font-bold text-neutral-800">
               Business Hours
-            </h5>
+            </h3>
 
             <ul className="mb-0 list-none">
               <li className="text-neutral-800">
@@ -25,40 +25,75 @@ export default async function Footer() {
 
           {/* <!--Second links section--> */}
           <div className="mb-6">
-            <h5 className="mb-2.5 font-bold text-neutral-800">
+            <h3 className="mb-2.5 font-bold text-neutral-800">
               Contact
-            </h5>
+            </h3>
 
             <ul className="mb-0 list-none">
               <li className="text-neutral-800">
                 <p>(832)788-3667</p>
               </li>
-              <li className="text-neutral-800 underline decoration-sky-500 hover:text-sky-500">
-                <Link href="/contact">Contact Form</Link>
+              <li>
+                <Link href="/contact" className="text-gray-700 hover:text-green-700">Contact Form</Link>
               </li>
             </ul>
           </div>
 
           {/* <!--Third links section--> */}
           <div className="mb-6">
-            <h5 className="mb-2.5 font-bold text-neutral-800">
+            <h3 className="mb-2.5 font-bold text-neutral-800">
               Accreditations
-            </h5>
+            </h3>
 
             <ul className="mb-0 list-none">
               <li>
                 <Link href="https://www.wallcoveringinstallers.org/">
-                  <Image src={wialogo} alt="wia logo" />
+                  <Image src={wialogo} alt="Wallcovering Installers Association member badge" />
                 </Link>
               </li>
             </ul>
+          </div>
+
+          {/* <!--Service Areas section--> */}
+          <div className="mb-6">
+            <h3 className="mb-2.5 font-bold text-neutral-800">
+              Service Areas
+            </h3>
+
+            <p className="text-sm text-neutral-800 leading-relaxed">
+              {[
+                { name: 'Austin', slug: 'austin' },
+                { name: 'Round Rock', slug: 'round-rock' },
+                { name: 'Cedar Park', slug: 'cedar-park' },
+                { name: 'Georgetown', slug: 'georgetown' },
+                { name: 'Pflugerville', slug: 'pflugerville' },
+                { name: 'Kyle', slug: 'kyle' },
+                { name: 'Buda', slug: 'buda' },
+                { name: 'San Marcos', slug: 'san-marcos' },
+                { name: 'Lakeway', slug: 'lakeway' },
+                { name: 'Dripping Springs', slug: 'dripping-springs' },
+                { name: 'Leander', slug: 'leander' },
+                { name: 'Manor & Hutto', slug: 'manor' },
+                { name: 'Westlake Hills', slug: 'westlake-hills' },
+              ].map(({ name, slug }, i, arr) => (
+                <span key={slug}>
+                  <Link
+                    href={`/service-area/${slug}`}
+                    className="text-gray-700 hover:text-green-700"
+                  >
+                    {name}
+                  </Link>
+                  {i < arr.length - 1 && ', '}
+                </span>
+              ))}
+            </p>
           </div>
         </div>
       </div>
 
       {/* <!--Copyright section--> */}
       <div className="bg-neutral-200 p-4 text-center text-neutral-700">
-        © 2023 Copyright: Wallcoverings By Don Dye
+        © 2026 Copyright: Wallcoverings By Don Dye
       </div>
     </footer>
   )

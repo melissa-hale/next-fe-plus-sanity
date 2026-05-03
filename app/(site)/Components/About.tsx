@@ -39,7 +39,7 @@ export default async function About() {
               type="button"
               className="text-gray-700 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:outline-none font-medium rounded-md text-sm px-4 py-2 text-center mt-3 mr-3 md:mr-0"
             >
-              Read More
+              Learn more about Don Dye
             </button>
           </a>
         </div>

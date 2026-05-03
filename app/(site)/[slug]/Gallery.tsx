@@ -1,5 +1,6 @@
 import { getProjects } from '@/sanity/sanity-utils'
 import Image from 'next/image'
+import Link from 'next/link'
 import { PortableTextBlock } from 'sanity'
 import { PortableText } from '@portabletext/react'
 
@@ -22,21 +23,27 @@ export default async function Gallery({ content }: Props) {
   }
 
   return (
-    <div className="min-h-screen mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div className="text-lg text-gray-700 mt-7 mb-7">
-        <PortableText value={content} components={serializer} />
+    <>
+      <h2 className="sr-only">Our Work</h2>
+      <div className="min-h-screen mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="text-lg text-gray-700 mt-7 mb-7">
+          <PortableText value={content} components={serializer} />
+        </div>
+        {projects.map((project, index) => (
+          <Link key={project._id} href={`/gallery/${project.slug}`} title={project.name}>
+            <Image
+              src={project.image}
+              alt={project.alt ?? project.name}
+              width={1750}
+              height={1500}
+              priority={index === 0}
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+              className="object-cover rounded-sm border border-gray-500 cursor-pointer hover:opacity-90 transition-opacity"
+            />
+          </Link>
+        ))}
       </div>
-      {projects.map((project) => (
-        <Image
-          key={project._id}
-          src={project.image}
-          alt={project.name}
-          width={1750}
-          height={1500}
-          className="object-cover rounded-sm border border-gray-500 cursor-pointer"
-        />
-      ))}
-    </div>
+    </>
   )
 }
 

@@ -15,9 +15,9 @@ export default async function Home() {
     types: {
       block: ({ value }: any) => {
         if (value.children.length === 1 && value.children[0].text === '') {
-          return
+          return null
         }
-        return <p className="pb-1">&#x2713;   {value.children[0].text}</p>
+        return <li className="pb-1">&#x2713;   {value.children[0].text}</li>
       },
     },
   }
@@ -40,24 +40,16 @@ export default async function Home() {
         </header>
         
         {/* IMPROVED CONTENT SECTION */}
-        <div 
-          className='text-base font-medium drop-shadow-md text-gray-700 pl-1' 
-          role="list"
-          aria-label="Our professional wallcovering services"
-        >
+        <ul className='text-base font-medium drop-shadow-md text-gray-700 pl-1 list-none'>
           <PortableText value={page.section_content} components={serializer}/>
-        </div>
+        </ul>
         
         {/* ENHANCED CALL-TO-ACTION */}
         <footer className="mt-8 text-center">
-          <a 
-            href="/contact" 
-            className="inline-block"
-            aria-label="Contact Wallcoverings By Don Dye for a free estimate on professional wallpaper installation in Austin, Texas"
-          >
+          <a href="/contact" className="inline-block">
             <button
               type="button"
-              className="text-gray-700 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:ring-green-300 focus:outline-none font-medium rounded-md text-lg px-6 py-3 text-center transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              className="text-gray-700 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:ring-green-300 focus:outline-none font-medium rounded-md text-lg px-6 py-3 text-center transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 min-h-[44px]"
             >
               Get Your Free Estimate Today!
             </button>
