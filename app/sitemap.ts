@@ -27,6 +27,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const lastMod = (slug: string) =>
       pageBySlug[slug] ? new Date(pageBySlug[slug]._updatedAt) : new Date()
 
+    console.log(lastMod('home'))
+
     const staticRoutes: MetadataRoute.Sitemap = [
       { url: BASE_URL,                lastModified: lastMod('home') },
       { url: `${BASE_URL}/about`,     lastModified: lastMod('about') },
