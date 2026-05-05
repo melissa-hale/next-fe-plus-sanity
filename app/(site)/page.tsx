@@ -1,8 +1,13 @@
+import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { getProjects } from '@/sanity/sanity-utils'
 import About from './Components/About'
 import Home from './Components/Home'
 import { FAQSchema } from './Components/FAQSchema'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
 
 const Gallery = dynamic(() => import('./Components/Gallery'), {
   ssr: false,
