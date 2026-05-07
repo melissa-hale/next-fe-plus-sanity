@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     description: 'Expert wallpaper installation services in Austin and Central Texas. Professional wallcovering specialist with over 40 years of experience.',
     images: [
       {
-        url: '/og-image.jpg', // We'll create this in a later step
+        url: '/og-image.png', // We'll create this in a later step
         width: 1200,
         height: 630,
         alt: 'Wallcoverings By Don Dye - Professional Wallpaper Installation Austin TX'
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Professional Wallpaper Installation Austin, TX | Wallcoverings By Don Dye',
     description: 'Expert wallpaper installation services in Austin and Central Texas. Professional wallcovering specialist with over 40 years of experience.',
-    images: ['/og-image.jpg'],
+    images: ['/og-image.png'],
   },
   verification: {
     google: 'google-site-verification=Cv4dbMzaNqMPQtXiv4jqwwwMr_W2eXovin0V9HkVpto'
