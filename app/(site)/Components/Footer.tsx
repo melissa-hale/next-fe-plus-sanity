@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from "next/link";
+import Image from "next/image";
 
-import wialogo from '../../../public/wialogo.jpg'
+import wialogo from "../../../public/wialogo.jpg";
 
 export default async function Footer() {
   return (
@@ -25,16 +25,27 @@ export default async function Footer() {
 
           {/* <!--Second links section--> */}
           <div className="mb-6">
-            <h3 className="mb-2.5 font-bold text-neutral-800">
-              Contact
-            </h3>
+            <h3 className="mb-2.5 font-bold text-neutral-800">Contact</h3>
 
             <ul className="mb-0 list-none">
               <li className="text-neutral-800">
-                <p>(832)788-3667</p>
+                <p className="text-gray-700 text-base">
+                  
+                  <a
+                    href="tel:+18327883667"
+                    className="text-gray-700 hover:text-green-700"
+                  >
+                    (832) 788-3667
+                  </a>
+                </p>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-700 hover:text-green-700">Contact Form</Link>
+                <Link
+                  href="/contact"
+                  className="text-gray-700 hover:text-green-700"
+                >
+                  Contact Form
+                </Link>
               </li>
             </ul>
           </div>
@@ -48,7 +59,10 @@ export default async function Footer() {
             <ul className="mb-0 list-none">
               <li>
                 <Link href="https://www.wallcoveringinstallers.org/">
-                  <Image src={wialogo} alt="Wallcovering Installers Association member badge" />
+                  <Image
+                    src={wialogo}
+                    alt="Wallcovering Installers Association member badge"
+                  />
                 </Link>
               </li>
             </ul>
@@ -56,25 +70,23 @@ export default async function Footer() {
 
           {/* <!--Service Areas section--> */}
           <div className="mb-6">
-            <h3 className="mb-2.5 font-bold text-neutral-800">
-              Service Areas
-            </h3>
+            <h3 className="mb-2.5 font-bold text-neutral-800">Service Areas</h3>
 
             <p className="text-sm text-neutral-800 leading-relaxed">
               {[
-                { name: 'Austin', slug: 'austin' },
-                { name: 'Round Rock', slug: 'round-rock' },
-                { name: 'Cedar Park', slug: 'cedar-park' },
-                { name: 'Georgetown', slug: 'georgetown' },
-                { name: 'Pflugerville', slug: 'pflugerville' },
-                { name: 'Kyle', slug: 'kyle' },
-                { name: 'Buda', slug: 'buda' },
-                { name: 'San Marcos', slug: 'san-marcos' },
-                { name: 'Lakeway', slug: 'lakeway' },
-                { name: 'Dripping Springs', slug: 'dripping-springs' },
-                { name: 'Leander', slug: 'leander' },
-                { name: 'Manor & Hutto', slug: 'manor' },
-                { name: 'Westlake Hills', slug: 'westlake-hills' },
+                { name: "Austin", slug: "austin" },
+                { name: "Round Rock", slug: "round-rock" },
+                { name: "Cedar Park", slug: "cedar-park" },
+                { name: "Georgetown", slug: "georgetown" },
+                { name: "Pflugerville", slug: "pflugerville" },
+                { name: "Kyle", slug: "kyle" },
+                { name: "Buda", slug: "buda" },
+                { name: "San Marcos", slug: "san-marcos" },
+                { name: "Lakeway", slug: "lakeway" },
+                { name: "Dripping Springs", slug: "dripping-springs" },
+                { name: "Leander", slug: "leander" },
+                { name: "Manor & Hutto", slug: "manor" },
+                { name: "Westlake Hills", slug: "westlake-hills" },
               ].map(({ name, slug }, i, arr) => (
                 <span key={slug}>
                   <Link
@@ -83,7 +95,7 @@ export default async function Footer() {
                   >
                     {name}
                   </Link>
-                  {i < arr.length - 1 && ', '}
+                  {i < arr.length - 1 && ", "}
                 </span>
               ))}
             </p>
@@ -96,5 +108,5 @@ export default async function Footer() {
         © 2026 Copyright: Wallcoverings By Don Dye
       </div>
     </footer>
-  )
+  );
 }

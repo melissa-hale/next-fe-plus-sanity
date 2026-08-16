@@ -3,6 +3,11 @@ import { Page } from '@/types/Page';
 import { createClient, groq } from 'next-sanity'
 import clientConfig from './config/client-config';
 
+// Next's Data Cache defaults every fetch to `force-cache`, which meant Sanity
+// responses were cached until the next deploy — publishing in the Studio never
+// reached the live site. Revalidating puts new content live within a minute.
+const cacheOptions = { next: { revalidate: 60 } } as const;
+
 export async function getProjects(): Promise<Project[]> {
   return createClient(clientConfig).fetch(
     groq`*[_type == "project"]{
@@ -17,7 +22,9 @@ export async function getProjects(): Promise<Project[]> {
         content,
         description,
         tags
-    }`
+    }`,
+    {},
+    cacheOptions
   );
 }
 
@@ -41,7 +48,8 @@ export async function getProject(slug: string): Promise<Project> {
           "ogImageUrl": ogImage.asset->url
         }
     }`,
-    { slug } //this is how you pass in a slug
+    { slug }, //this is how you pass in a slug
+    cacheOptions
   );
 }
 
@@ -53,7 +61,9 @@ export async function getPages(): Promise<Page[]> {
         _updatedAt,
         title,
         "slug": slug.current
-    }`
+    }`,
+    {},
+    cacheOptions
   );
 }
 
@@ -72,6 +82,7 @@ export async function getPage(slug: string): Promise<Page> {
           "ogImageUrl": ogImage.asset->url
         }
     }`,
-    { slug } //this is how you pass in a slug
+    { slug }, //this is how you pass in a slug
+    cacheOptions
   );
 }

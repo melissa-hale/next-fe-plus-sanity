@@ -17,7 +17,12 @@ export default async function Home() {
         if (value.children.length === 1 && value.children[0].text === '') {
           return null
         }
-        return <li className="pb-1">&#x2713;   {value.children[0].text}</li>
+        return (
+          <li className="pb-1">
+            <span className="mr-3">&#x2713;</span>
+            {value.children[0].text}
+          </li>
+        )
       },
     },
   }
@@ -27,7 +32,7 @@ export default async function Home() {
       className="mx-auto max-w-5xl px-6 min-h-screen flex justify-center items-center flex-col"
       aria-label="Welcome to Wallcoverings By Don Dye"
     >
-      <article className="text-xl text-green-900 mb-60 p-8 bg-gray-200 bg-opacity-60 rounded-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
+      <article className="text-xl text-green-900 mb-60 p-8 bg-gray-200 bg-opacity-85 rounded-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
         {/* IMPROVED HEADER STRUCTURE */}
         <header className="mb-6">
           <h1 className={`${headerFont.variable} font-headers text-5xl drop-shadow pb-3 font-extrabold`}>

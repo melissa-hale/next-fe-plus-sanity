@@ -3,6 +3,11 @@ import { getPages, getProjects } from '@/sanity/sanity-utils'
 
 const BASE_URL = 'https://www.wallcoveringsbydondye.com'
 
+// Without this the route is baked at build time and newly published pages and
+// projects never reach the sitemap. Next uses the lowest revalidate in the
+// segment, so the 60s on the Sanity fetches wins — this is the outer bound.
+export const revalidate = 3600
+
 const CITY_SLUGS = [
   'austin',
   'round-rock',
@@ -26,8 +31,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const pageBySlug = Object.fromEntries(pages.map((p) => [p.slug, p]))
     const lastMod = (slug: string) =>
       pageBySlug[slug] ? new Date(pageBySlug[slug]._updatedAt) : new Date()
-
-    console.log(lastMod('home'))
 
     const staticRoutes: MetadataRoute.Sitemap = [
       { url: BASE_URL,                lastModified: lastMod('home') },
