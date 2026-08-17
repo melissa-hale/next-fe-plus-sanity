@@ -2,7 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-body {    
+html {
+    /* Matches theme.colors.cream so overscroll and the area below short pages
+       stay on-palette instead of flashing white. */
+    background-color: #FDF6E3;
+}
+
+body {
     margin: 0 !important;
     padding: 0 !important;
 }

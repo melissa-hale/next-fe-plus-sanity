@@ -101,7 +101,7 @@ export default function ContactForm({ content }: Props) {
   };
 
   return (
-    <div className="min-h-screen">
+    <div>
       {(() => {
         if (status === contactStatuses.error) {
           return <Failure />;
@@ -110,8 +110,27 @@ export default function ContactForm({ content }: Props) {
         } else {
           return (
             <>
-              <div className="text-lg text-gray-700 mt-7 mb-7 text-center">
-                <PortableText value={content} components={serializer} />
+              <div className="mb-12 text-lg leading-relaxed text-gray-800">
+                <p>
+                  Feel free to 
+                  <a
+                    href="tel:+18327883667"
+                    className="text-gray-700 hover:text-green-700 mx-1"
+                  >
+                    <span className="text-sm">&#9742;</span> call
+                  </a>
+                  or 
+                  <a
+                    href="sms:+18327883667"
+                    className="text-gray-700 hover:text-green-700 mx-1"
+                  >
+                    <span className="text-sm">&#128172;</span> text
+                  </a>
+                  me at (832)788-3667. 
+                  </p>
+                  <p>Or submit the form below to get in touch. Looking
+                  forward to hearing from you!
+                </p>
               </div>
               <form
                 className="w-full center max-w-lg mx-auto"
@@ -132,7 +151,7 @@ export default function ContactForm({ content }: Props) {
                         pattern: /^[A-Za-z]+$/i,
                       })}
                       aria-invalid={errors.fName ? "true" : "false"}
-                      className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-first-name"
                       type="text"
                       placeholder="Jane"
@@ -158,7 +177,7 @@ export default function ContactForm({ content }: Props) {
                         pattern: /^[A-Za-z]+$/i,
                       })}
                       aria-invalid={errors.lName ? "true" : "false"}
-                      className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-last-name"
                       type="text"
                       placeholder="Doe"
@@ -186,7 +205,7 @@ export default function ContactForm({ content }: Props) {
                         pattern: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
                       })}
                       aria-invalid={errors.em ? "true" : "false"}
-                      className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-email"
                       type="text"
                       placeholder="Jane@email.com"
@@ -215,7 +234,7 @@ export default function ContactForm({ content }: Props) {
                         required: true,
                         maxLength: 20,
                       })}
-                      className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-phone"
                       type="text"
                       placeholder="(555)555-5555"
@@ -241,7 +260,7 @@ export default function ContactForm({ content }: Props) {
                         required: true,
                         maxLength: 40,
                       })}
-                      className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-address"
                       type="text"
                       placeholder="123 Main Street"
@@ -267,7 +286,7 @@ export default function ContactForm({ content }: Props) {
                     </label>
                     <input
                       {...register("cty", { required: true, maxLength: 20 })}
-                      className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-city"
                       type="text"
                       placeholder="Austin"
@@ -289,7 +308,7 @@ export default function ContactForm({ content }: Props) {
                     <div className="relative">
                       <select
                         {...register("st")}
-                        className="placeholder-gray-300 block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        className="placeholder-gray-300 block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
                       >
                         <option>Texas</option>
@@ -309,7 +328,7 @@ export default function ContactForm({ content }: Props) {
                         maxLength: 5,
                         minLength: 5,
                       })}
-                      className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-zip"
                       type="text"
                       placeholder="78758"
@@ -342,7 +361,7 @@ export default function ContactForm({ content }: Props) {
                     </label>
                     <textarea
                       {...register("comments", { maxLength: 200 })}
-                      className="placeholder-gray-300 appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-comments"
                       rows={4}
                       placeholder="Additional Comments"
@@ -355,7 +374,7 @@ export default function ContactForm({ content }: Props) {
                 {/* <div className="md:w-1/3"></div> */}
                 <div className="md:w-2/3">
                   <button
-                    className="text-gray-600 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-4 py-2 text-center shadow"
+                    className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-green-900 px-6 py-3 text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
                     type="submit"
                   >
                     Submit

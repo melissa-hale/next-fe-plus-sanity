@@ -1,13 +1,8 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
-import { Ibarra_Real_Nova } from '@next/font/google'
-
-const headerFont = Ibarra_Real_Nova({
-  subsets: ['latin'],
-  variable: '--font-dancing',
-})
+import PageHero from '../../Components/PageHero'
+import Section from '../../Components/Section'
 
 const BASE_URL = 'https://www.wallcoveringsbydondye.com'
 
@@ -261,80 +256,64 @@ export default function CityPage({ params }: Props) {
   if (!city) notFound()
 
   return (
-    <div className="max-w-3xl mx-auto min-h-screen p-8 bg-amber-100 bg-opacity-80">
+    <div>
       <CitySchema city={city} />
 
-      <h1
-        className={`${headerFont.variable} font-headers text-green-900 text-4xl drop-shadow font-extrabold mb-6`}
-      >
-        {city.headline}
-      </h1>
+      <PageHero size="sm">
+        <h1 className="max-w-3xl font-headers text-4xl font-extrabold text-green-900 md:text-5xl">
+          {city.headline}
+        </h1>
+      </PageHero>
 
-      <div className="relative w-full aspect-[16/7] mb-8 rounded-sm overflow-hidden border border-gray-400 shadow">
-        <Image
-          src="/home-bg.jpg"
-          alt={`Wallpaper installation in ${city.name}, TX`}
-          fill
-          className="object-cover"
-          priority
-          sizes="(max-width: 768px) 100vw, 768px"
-        />
-      </div>
+      <Section width="narrow">
+        <p className="mb-5 text-lg leading-relaxed text-gray-800">{city.intro}</p>
+        <p className="text-base leading-relaxed text-gray-700">{city.body}</p>
 
-      <p className="text-gray-800 text-lg leading-relaxed mb-5">{city.intro}</p>
-      <p className="text-gray-700 text-base leading-relaxed mb-8">{city.body}</p>
+        <div className="mt-8 rounded-md border border-green-200 bg-green-50 p-5">
+          <h2 className="mb-1 text-base font-semibold text-green-900">
+            Neighborhoods we serve in {city.name}
+          </h2>
+          <p className="text-sm text-gray-600">{city.neighborhoods}</p>
+        </div>
+      </Section>
 
-      <div className="bg-green-50 border border-green-200 rounded-md p-5 mb-8">
-        <h2 className="text-green-900 font-semibold text-base mb-1">
-          Neighborhoods we serve in {city.name}
-        </h2>
-        <p className="text-gray-600 text-sm">{city.neighborhoods}</p>
-      </div>
-
-      <div className="border-t border-gray-300 pt-6">
-        <h2
-          className={`${headerFont.variable} font-headers text-green-900 text-2xl font-bold mb-3`}
-        >
+      <Section width="narrow" tint>
+        <h2 className="mb-3 font-headers text-2xl font-bold text-green-900">
           Get a Free Estimate
         </h2>
-        <p className="text-gray-700 mb-4 text-base">
+        <p className="mb-5 text-base text-gray-800">
           Call Don at{' '}
-          <a
-            href="tel:+18327883667"
-            className="text-green-800 font-semibold hover:underline"
-          >
+          <a href="tel:+18327883667" className="font-semibold text-green-800 hover:underline">
             (832) 788-3667
           </a>{' '}
           or use the contact form to schedule your free {city.name} estimate.
         </p>
-        <Link href="/contact">
-          <button
-            type="button"
-            className="text-gray-700 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:outline-none font-medium rounded-md text-sm px-4 py-2"
-          >
-            Contact Us
-          </button>
+        <Link
+          href="/contact"
+          className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-green-900 px-6 py-3 text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
+        >
+          Contact Us
         </Link>
-      </div>
 
-      <div className="mt-10 pt-6 border-t border-gray-200">
-        <h3 className="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-3">
-          Other service areas
-        </h3>
-        <div className="flex flex-wrap gap-2">
-          {Object.values(cities)
-            .filter((c) => c.slug !== city.slug)
-            .map((c) => (
-              <Link
-                key={c.slug}
-                href={`/service-area/${c.slug}`}
-                className="text-green-800 hover:underline text-sm"
-              >
-                {c.name}
-              </Link>
-            ))}
+        <div className="mt-12 border-t border-amber-200 pt-8">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-600">
+            Other service areas
+          </h3>
+          <div className="flex flex-wrap gap-x-4 gap-y-2">
+            {Object.values(cities)
+              .filter((c) => c.slug !== city.slug)
+              .map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/service-area/${c.slug}`}
+                  className="text-sm text-green-800 hover:underline"
+                >
+                  {c.name}
+                </Link>
+              ))}
+          </div>
         </div>
-      </div>
+      </Section>
     </div>
   )
 }

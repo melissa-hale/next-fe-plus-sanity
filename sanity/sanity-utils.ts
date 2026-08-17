@@ -8,9 +8,7 @@ import clientConfig from './config/client-config';
 // reached the live site. Revalidating puts new content live within a minute.
 const cacheOptions = { next: { revalidate: 60 } } as const;
 
-export async function getProjects(): Promise<Project[]> {
-  return createClient(clientConfig).fetch(
-    groq`*[_type == "project"]{
+const projectFields = `
         _id,
         _createdAt,
         _updatedAt,
@@ -21,11 +19,35 @@ export async function getProjects(): Promise<Project[]> {
         url,
         content,
         description,
-        tags
-    }`,
+        tags,
+        featured,
+        featuredOrder
+`;
+
+export async function getProjects(): Promise<Project[]> {
+  return createClient(clientConfig).fetch(
+    groq`*[_type == "project"]{${projectFields}}`,
     {},
     cacheOptions
   );
+}
+
+/**
+ * Projects for the homepage "Recent Work" grid.
+ *
+ * Ordering is controlled from the Studio: tick "Show on homepage" on a project
+ * and optionally give it a "Homepage order" number. If nothing is flagged yet,
+ * falls back to the newest projects so the homepage grid is never empty.
+ */
+export async function getFeaturedProjects(limit = 6): Promise<Project[]> {
+  const projects: Project[] = await createClient(clientConfig).fetch(
+    groq`*[_type == "project"] | order(coalesce(featuredOrder, 9999) asc, _createdAt desc){${projectFields}}`,
+    {},
+    cacheOptions
+  );
+
+  const featured = projects.filter((project) => project.featured);
+  return (featured.length > 0 ? featured : projects).slice(0, limit);
 }
 
 export async function getProject(slug: string): Promise<Project> {

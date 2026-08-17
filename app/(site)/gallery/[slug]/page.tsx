@@ -2,13 +2,9 @@ import { getProject, getProjects } from '@/sanity/sanity-utils'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Ibarra_Real_Nova } from '@next/font/google'
 import { notFound } from 'next/navigation'
-
-const headerFont = Ibarra_Real_Nova({
-  subsets: ['latin'],
-  variable: '--font-dancing',
-})
+import PageHero from '../../Components/PageHero'
+import Section from '../../Components/Section'
 
 const BASE_URL = 'https://www.wallcoveringsbydondye.com'
 
@@ -113,64 +109,63 @@ export default async function ProjectPage({ params }: Props) {
   if (!project) notFound()
 
   return (
-    <div className="max-w-3xl mx-auto min-h-screen p-8 bg-amber-100 bg-opacity-80">
+    <div>
       <ProjectSchema project={project} />
 
-      <Link
-        href="/gallery"
-        className="text-green-800 hover:text-green-600 text-sm font-medium mb-6 inline-block"
-      >
-        ← Back to Gallery
-      </Link>
+      <PageHero size="sm">
+        <Link
+          href="/gallery"
+          className="mb-4 inline-block text-sm font-medium text-green-800 hover:text-green-600"
+        >
+          ← Back to Gallery
+        </Link>
+        <h1 className="font-headers text-4xl font-extrabold text-green-900 md:text-5xl">
+          {project.name}
+        </h1>
+      </PageHero>
 
-      <h1
-        className={`${headerFont.variable} font-headers text-green-900 text-4xl drop-shadow font-extrabold mb-6`}
-      >
-        {project.name}
-      </h1>
-
-      <div className="relative w-full aspect-[4/3] mb-6 rounded-sm overflow-hidden border border-gray-400 shadow">
-        <Image
-          src={project.image}
-          alt={project.alt ?? project.name}
-          fill
-          className="object-cover"
-          priority
-          sizes="(max-width: 768px) 100vw, 768px"
-        />
-      </div>
-
-      {project.description && (
-        <p className="text-gray-700 text-lg leading-relaxed mb-6">{project.description}</p>
-      )}
-
-      {project.tags && project.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-8">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded"
-            >
-              {tag}
-            </span>
-          ))}
+      <Section width="narrow">
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md">
+          <Image
+            src={project.image}
+            alt={project.alt ?? project.name}
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 768px) 100vw, 768px"
+          />
         </div>
-      )}
 
-      <div className="border-t border-gray-300 pt-6">
-        <p className="text-gray-700 mb-4">
-          Interested in a similar look for your home? Don Dye serves Austin and all of Central
-          Texas.
-        </p>
-        <Link href="/contact">
-          <button
-            type="button"
-            className="text-gray-700 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:outline-none font-medium rounded-md text-sm px-4 py-2"
+        {project.description && (
+          <p className="mt-8 text-lg leading-relaxed text-gray-800">{project.description}</p>
+        )}
+
+        {project.tags && project.tags.length > 0 && (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-12 border-t border-amber-200 pt-8">
+          <p className="mb-5 text-gray-800">
+            Interested in a similar look for your home? Don Dye serves Austin and all of Central
+            Texas.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-green-900 px-6 py-3 text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
           >
             Get a Free Estimate
-          </button>
-        </Link>
-      </div>
+          </Link>
+        </div>
+      </Section>
     </div>
   )
 }

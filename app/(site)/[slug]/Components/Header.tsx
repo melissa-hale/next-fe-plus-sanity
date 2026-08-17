@@ -1,24 +1,25 @@
-import { Ibarra_Real_Nova } from '@next/font/google'
-
-const headerFont = Ibarra_Real_Nova({
-  subsets: ['latin'],
-  variable: '--font-dancing'
-})
+import PageHero from '../../Components/PageHero'
+import Section from '../../Components/Section'
 
 type Props = {
-    title: string
-    id: string
-    children?: React.ReactNode
-  }  
+  title: string
+  id: string
+  /** `wide` for the gallery grid; `narrow` for reading copy and the contact form. */
+  width?: 'narrow' | 'wide'
+  children?: React.ReactNode
+}
 
-export default async function Header({ title, id, children }: Props) {
-
+// Shared shell for every inner page: a short patterned hero band carrying the
+// <h1>, then content on solid cream with the standard section rhythm.
+export default async function Header({ title, id, width = 'narrow', children }: Props) {
   return (
-    <div key={id} className='max-w-3xl mx-auto min-h-screen p-8 bg-amber-100 bg-opacity-80'>
-      <h1 className={`${headerFont.variable} font-headers text-green-900 text-5xl drop-shadow font-extrabold`}>
-        {title}
-      </h1>
-      {children}
+    <div key={id}>
+      <PageHero size="sm">
+        <h1 className="font-headers text-4xl font-extrabold text-green-900 md:text-5xl">
+          {title}
+        </h1>
+      </PageHero>
+      <Section width={width}>{children}</Section>
     </div>
   )
 }

@@ -1,69 +1,62 @@
-'use client'
-
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
+import Link from 'next/link'
+import Section from './Section'
+import { Project } from '@/types/Project'
 
 type Props = {
-  projects: Array<{
-    image: string
-    slug: string
-    _id: string
-    name: string
-    alt: string
-  }>
+  projects: Project[]
 }
 
+// Static grid, rendered on the server. Replaced the auto-advancing carousel:
+// nothing moves on its own, so it can't fight a manual scroll, and every image
+// is a real crawlable link to its project page.
 export default function Gallery({ projects }: Props) {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const indexRef = useRef(0)
-
-  useEffect(() => {
-    const container = scrollRef.current
-    if (!container || projects.length <= 1) return
-
-    const interval = setInterval(() => {
-      const next = (indexRef.current + 1) % projects.length
-      container.scrollTo({ left: container.offsetWidth * next, behavior: 'smooth' })
-      indexRef.current = next
-    }, 5000)
-
-    return () => clearInterval(interval)
-  }, [projects.length])
+  if (projects.length === 0) return null
 
   return (
-    <div className="max-w-screen mx-auto">
-      <div className="max-w-3xl mx-auto">
-        <div className="h-128 p-3">
-          <div
-            ref={scrollRef}
-            className="flex h-full overflow-x-scroll snap-x snap-mandatory rounded-lg"
-            style={{ scrollbarWidth: 'none' }}
-          >
-            {projects.map((project, index) => (
-              <div key={project._id} className="relative flex-none w-full h-full snap-start">
+    <Section>
+      <div className="mb-10 text-center">
+        <h2 className="font-headers text-3xl font-extrabold text-green-900 md:text-4xl">
+          Recent Work
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-gray-700">
+          A selection of recent wallcovering installations across Austin and Central Texas.
+        </p>
+      </div>
+
+      <ul className="grid list-none grid-cols-1 gap-5 pl-0 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project, index) => (
+          <li key={project._id}>
+            <Link
+              href={`/gallery/${project.slug}`}
+              className="group block overflow-hidden rounded-lg bg-white/70 shadow-sm transition-shadow duration-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-700"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
                   src={project.image}
-                  alt={project.name}
+                  alt={project.alt ?? project.name}
                   fill
-                  className="object-cover rounded-lg"
                   priority={index === 0}
-                  sizes="(max-width: 768px) 100vw, 768px"
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                 />
               </div>
-            ))}
-          </div>
-        </div>
-        <div className='flex justify-center pb-10'>
-          <a href="/gallery">
-            <button
-              type="button"
-              className="text-gray-700 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:outline-none font-medium rounded-md text-sm px-4 py-2 text-center mt-3 mr-3 md:mr-0"
-            >
-              View My Work
-            </button>
-          </a>
-        </div>
+              <span className="block px-4 py-3 text-sm font-medium text-green-900">
+                {project.name}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-10 text-center">
+        <Link
+          href="/gallery"
+          className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-green-900 px-6 py-3 font-medium text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
+        >
+          View My Work
+        </Link>
       </div>
-    </div>
+    </Section>
   )
 }

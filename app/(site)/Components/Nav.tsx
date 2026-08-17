@@ -14,17 +14,30 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-20 w-full bg-site-bg-image">
-      <nav className="bg-white bg-opacity-80 border-4 border-double border-b-amber-400 px-4 py-2 flex items-center justify-between flex-wrap">
-        <a href="/" aria-label="Wallcoverings By Don Dye home page">
+    <header className="top-0 z-20 w-full bg-site-bg-image">
+      <nav className="bg-cream bg-opacity-90 border-4 border-double border-b-amber-400 px-4 py-2 flex items-center justify-between flex-wrap">
+        {/* Brand and the CTA/hamburger group both take `md:flex-1`, so the nav menu
+            between them stays centered on the row no matter how wide either side is.
+            Without it the wordmark pushed the links off-center. */}
+        <a
+          href="/"
+          aria-label="Wallcoverings By Don Dye home page"
+          className="flex shrink-0 items-center gap-3 md:flex-1"
+        >
           <Image alt="Wallcoverings By Don Dye logo" height={80} src={logo} width={80} />
+          {/* Wordmark. Same serif + green-900 as every <h1> on the site, so the nav
+              reads as part of the same type system. Below 1200px the row also has to
+              hold the CTA and hamburger, so the logo carries the brand alone. */}
+          <span className="hidden whitespace-nowrap font-headers text-xl font-extrabold tracking-[0.015em] text-green-900 min-[1200px]:inline">
+            Wallcoverings by Don Dye
+          </span>
         </a>
 
-        <div className="flex items-center gap-2 md:order-2">
+        <div className="flex items-center gap-2 md:order-2 md:flex-1 md:justify-end">
           <a href="/contact">
             <button
               type="button"
-              className="text-gray-600 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-4 py-3 text-center min-h-[44px]"
+              className="text-gray-200 bg-green-900 px-6 py-3  shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-100 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300 font-medium rounded-md text-sm  text-center min-h-[44px]"
             >
               Contact Us
             </button>

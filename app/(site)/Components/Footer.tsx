@@ -6,8 +6,8 @@ import wialogo from "../../../public/wialogo.jpg";
 export default async function Footer() {
   return (
     // <!-- Footer container -->
-    <footer className="bg-neutral-100 text-center lg:text-left">
-      <div className="container p-6">
+    <footer className="bg-cream-deep text-center lg:text-left border-4 border-double border-t-amber-400">
+      <div className="container pt-12 p-6 mx-auto">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
           {/* <!--First links section--> */}
           <div className="mb-6">
@@ -58,10 +58,16 @@ export default async function Footer() {
 
             <ul className="mb-0 list-none">
               <li>
-                <Link href="https://www.wallcoveringinstallers.org/">
+                <Link
+                  href="https://www.wallcoveringinstallers.org/"
+                  className="block w-[180px] lg:w-[200px] mx-auto lg:mx-0"
+                  target="_blank"
+                >
                   <Image
                     src={wialogo}
                     alt="Wallcovering Installers Association member badge"
+                    sizes="200px"
+                    className="h-auto w-full"
                   />
                 </Link>
               </li>
@@ -104,9 +110,9 @@ export default async function Footer() {
       </div>
 
       {/* <!--Copyright section--> */}
-      <div className="bg-neutral-200 p-4 text-center text-neutral-700">
-        © 2026 Copyright: Wallcoverings By Don Dye
-      </div>
+      {/* <div className="bg-neutral-200 p-4 text-center text-neutral-700">
+        <p>© 2026 Copyright: Wallcoverings By Don Dye</p>
+      </div> */}
     </footer>
   );
 }

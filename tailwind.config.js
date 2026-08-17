@@ -9,6 +9,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        // Page surface. `cream` is the default ground for every route; `deep` is the
+        // slightly darker band used to separate alternating sections without a border.
+        cream: {
+          DEFAULT: '#FDF6E3',
+          deep: '#F7EDD4',
+          shade: '#F7EDD4',
+        },
+        amber: {
+          350: '#EFC849',
+        },
+      },
       fontFamily: {
         'montserrat': ['var(--font-montserrat)', 'sans-serif'],
         'sans': ['var(--font-inter)'],

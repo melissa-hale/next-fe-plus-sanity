@@ -18,5 +18,7 @@ export type Project = {
     alt: string;
     description?: string;
     tags?: string[];
+    featured?: boolean;
+    featuredOrder?: number;
     seo?: ProjectSeo;
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import dynamic from 'next/dynamic'
-import { getProjects } from '@/sanity/sanity-utils'
+import { getFeaturedProjects } from '@/sanity/sanity-utils'
 import About from './Components/About'
+import Gallery from './Components/Gallery'
 import Home from './Components/Home'
 import { FAQSchema } from './Components/FAQSchema'
 
@@ -9,22 +9,16 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 }
 
-const Gallery = dynamic(() => import('./Components/Gallery'), {
-  ssr: false,
-  loading: () => <div className="max-w-3xl mx-auto h-128 p-3" />,
-})
-// import Process from './Components/Process'
-
 export default async function Landing() {
-  const projects = await getProjects()
+  // Which projects appear here is controlled in the Studio — see getFeaturedProjects.
+  const projects = await getFeaturedProjects(6)
 
   return (
-    <div>
+    <>
       <FAQSchema />
       <Home />
       <Gallery projects={projects} />
       <About />
-      {/* <Process /> */}
-    </div>
+    </>
   )
 }

@@ -1,24 +1,12 @@
 // app/(site)/layout.tsx
 import '../globals.css'
 import type { Metadata } from 'next'
-import { Catamaran, Montserrat } from '@next/font/google'
-import Image from 'next/image'
 
 import Footer from './Components/Footer'
 import Nav from './Components/Nav'
 import { LocalBusinessSchema, ServiceSchema } from './Components/StructuredData' // ADD THIS IMPORT
 import { Analytics } from '@vercel/analytics/react';
-
-const bodyFont = Catamaran({
-  subsets: ['latin'],
-  variable: '--font-inter'
-});
-
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-montserrat'
-});
+import { bodyFont, headerFont, montserrat } from './fonts'
 
 // REPLACE YOUR EXISTING METADATA WITH THIS ENHANCED VERSION
 export const metadata: Metadata = {
@@ -90,17 +78,11 @@ export default async function RootLayout({
         <LocalBusinessSchema />
         <ServiceSchema />
       </head>
-      <body className={`mx-auto ${bodyFont.variable} ${montserrat.variable} font-sans`}>
+      <body
+        className={`${bodyFont.variable} ${headerFont.variable} ${montserrat.variable} bg-cream font-sans text-gray-800`}
+      >
         <Nav />
-        <div className="fixed inset-0 -z-10 opacity-70">
-          <Image src="/home-bg.jpg" alt="" fill priority sizes="100vw" className="object-cover object-center" />
-        </div>
-        <main className="mx-auto">{children}</main>
-        <a href="https://www.freepik.com/free-vector/diamond-shape-golden-pattern-vector-background_2395263.htm#query=geometric%20pattern&position=8&from_view=keyword&track=ais">
-          <span className="block text-xs text-right text-gray-600">
-            Background Image by starline on Freepik
-          </span>
-        </a>
+        <main>{children}</main>
         <Footer />
         <Analytics />
       </body>

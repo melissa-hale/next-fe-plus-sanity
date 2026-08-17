@@ -1,11 +1,6 @@
 import { getPage } from '@/sanity/sanity-utils'
 import { PortableText } from '@portabletext/react'
-import { Ibarra_Real_Nova } from '@next/font/google'
-
-const headerFont = Ibarra_Real_Nova({
-  subsets: ['latin'],
-  variable: '--font-dancing'
-})
+import Section from './Section'
 
 export default async function About() {
   const page = await getPage('about')
@@ -16,34 +11,29 @@ export default async function About() {
         if (value.children.length === 1 && value.children[0].text === '') {
           return <br />
         }
-        return <p>{value.children[0].text}</p>
+        return <p className="mb-4">{value.children[0].text}</p>
       },
     },
   }
 
   return (
-    <section
-      key={page._id}
-      className="max-w-3xl p-6 mx-auto min-h-full bg-amber-100 bg-opacity-80"
-    >
-      <div className="p-6">
-        <h1 className={`${headerFont.variable} font-headers text-green-900 text-4xl drop-shadow font-extrabold`}>
-          About Don Dye
-        </h1>
-        <div className="text-lg drop-shadow-md text-gray-800 mt-7 mb-7">
-          <PortableText value={page.section_content} components={serializer} />
-        </div>
-        <div className="flex justify-center">
-          <a href="/about">
-            <button
-              type="button"
-              className="text-gray-700 bg-amber-300 hover:bg-green-700 hover:text-gray-200 focus:ring-4 focus:outline-none font-medium rounded-md text-sm px-4 py-2 text-center mt-3 mr-3 md:mr-0"
-            >
-              Learn more about Don Dye
-            </button>
-          </a>
-        </div>
+    <Section width="narrow">
+      <h2 className="font-headers text-3xl font-extrabold text-green-900 md:text-4xl">
+        About Don Dye
+      </h2>
+
+      <div className="mt-6 text-lg leading-relaxed text-gray-800">
+        <PortableText value={page.section_content} components={serializer} />
       </div>
-    </section>
+
+      <div className="mt-8 flex justify-center">
+        <a
+          href="/about"
+          className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-green-900 px-6 py-3 font-medium text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
+        >
+          Learn more about Don Dye
+        </a>
+      </div>
+    </Section>
   )
 }

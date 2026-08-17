@@ -7,7 +7,7 @@ export function LocalBusinessSchema() {
     "url": "https://www.wallcoveringsbydondye.com",
     "telephone": "(832)788-3667",
     "priceRange": "$$",
-    "image": "https://www.wallcoveringsbydondye.com/home-bg.jpg",
+    "image": "https://www.wallcoveringsbydondye.com/bg-maybe-edit.jpg",
     "paymentAccepted": "Cash, Check, Credit Card",
     "hasMap": "https://maps.google.com/?q=Wallcoverings+By+Don+Dye+Austin+TX",
     "address": {

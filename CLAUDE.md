@@ -63,7 +63,7 @@ Check items off as they are completed. Add a short note with the date when done.
 - [ ] **3b.1** Run production build (`npm run build && npm start`) and re-audit — dev mode inflates bundles and disables minification; several findings (unminified JS/CSS, missing source maps) are dev artifacts that vanish in prod
 - [x] **3b.2** Replace Flowbite Carousel in `Gallery.tsx` with a lightweight alternative — `page.js` is 1.7 MB with a 1,092 ms long task driven by the carousel *(2026-05-03 — `Components/Gallery.tsx`: replaced `Flowbite`/`Carousel` with CSS `scroll-snap` + `useEffect` auto-advance; `flowbite` and `flowbite-react` uninstalled from `package.json`)*
 - [x] **3b.3** Purge unused CSS — `layout.css` is 91% unused (15.8 KB wasted out of 17 KB), render-blocking (+300 ms FCP); verify Tailwind `content` glob covers all template files, then remove any leftover Flowbite global CSS imports *(2026-05-03 — `tailwind.config.js`: removed Flowbite from `content` array and `plugins`; added `sanity/**/*.{ts,tsx}` and `types/**/*.ts` to content glob; Flowbite global CSS eliminated by package removal)*
-- [ ] **3b.4** Convert nav header CSS background to `<Image>` — `header.sticky` still uses `bg-site-bg-image` (CSS background), contributing to the 47 KiB image delivery gap Lighthouse still flags alongside the hero image
+- [-] **3b.4** ~~Convert nav header CSS background to `<Image>`~~ — **will not do; inverted by 3d.11.** `bg-site-bg-image` is now used deliberately by *both* the nav and `PageHero`, because a repeating 200×200 tile cannot be expressed with `<Image fill>`. The tile is 14 KB and shared across every route, so the 47 KiB gap this targeted is gone.
 - [ ] **3b.5** Update browserslist targets to drop legacy JS transforms — `@babel/plugin-transform-classes` in `main-app.js` adds 9 KB; add `"browserslist"` to `package.json` targeting last 2 versions of Chrome/Firefox/Safari/Edge
 - [ ] **3b.6** Fix remaining touch target spacing — `<a href="/gallery">` and `<a href="/about">` still flagged (height is 48 px but gap between adjacent targets is below the required 12 px minimum)
 
@@ -82,6 +82,93 @@ Check items off as they are completed. Add a short note with the date when done.
 - [x] **3c.4** Fix heading order on gallery page — Lighthouse flags a heading-order violation on `/gallery` *(2026-05-03 — `[slug]/Gallery.tsx`: wrapped return in `<>`, added `<h2 className="sr-only">Our Work</h2>` before the grid; `Header.tsx` already renders `<h1>` so sequence is now h1 → h2 → h3 footer)*
 
 - [ ] **3c.5** Fix console 404 for Vercel Analytics — `/_vercel/insights/script.js` returns 404 in local dev. This is a dev-environment artifact (the Vercel injected script is absent on localhost). Not a production issue, but worth confirming it does not appear in production logs after the next deploy.
+
+### Phase 3d — Layout & Visual System Redesign (2026-08-16)
+
+> Motivation: the fussy homepage carousel (auto-advance fought manual scrolling) plus a full-viewport hero
+> that pushed Gallery and About into a cramped strip above the footer. The fixed background image forced
+> every content block to carry its own translucent panel, so nothing had room to breathe.
+
+**The system** — three new primitives now shared by all routes:
+
+| File | Role |
+|------|------|
+| `app/(site)/Components/PageHero.tsx` | Bounded band (`size="lg"` homepage ≈65vh, `size="sm"` page header). Holds the `<h1>`. Tiled `bg-site-bg-image` wallpaper — the same tile as the nav — under a cream gradient scrim for legibility + a seamless fade into the page. |
+| `app/(site)/Components/Section.tsx` | The single source of vertical rhythm (`py-14 md:py-20`). `width="narrow"` (max-w-3xl) for copy/forms, `"wide"` (max-w-5xl) for grids. `tint` renders `bg-cream-deep` for alternating bands. |
+| `app/(site)/fonts.ts` | All three fonts instantiated once; variables applied to `<body>`. Components just use `font-headers` / `font-sans`. |
+
+**Rule: nothing below a PageHero sets its own `min-h-screen`.** Stacked `min-h-screen` on the wrapper *and*
+the child was the cause of the arbitrary dead space on every inner page.
+
+- [x] **3d.1** Solid `cream` (#FDF6E3) page surface replaces the persistent fixed background image *(2026-08-16 — `tailwind.config.js`: added `colors.cream` (DEFAULT #FDF6E3, `deep` #F7EDD4); `globals.css`: `html` background set to match so overscroll stays on-palette; `layout.tsx`: removed the `fixed inset-0 -z-10` hero `<Image>`, body now `bg-cream`)*
+- [x] **3d.2** Hero image bounded to a hero band instead of persisting on scroll *(2026-08-16 — new `PageHero.tsx`; the image now appears only inside the band, under a `from-cream/60 via-cream/45 to-cream` gradient scrim. Initially `home-bg.jpg` via `<Image fill priority>`; superseded same day by 3d.11 below, which switched the band to the nav's tiled wallpaper)*
+- [x] **3d.3** Replace the auto-advancing carousel with a static "Recent Work" grid *(2026-08-16 — `Components/Gallery.tsx`: rewritten as a server component; removed `'use client'`, `useRef`, and the `setInterval` scroll-hijack. `page.tsx`: dropped the `dynamic(..., { ssr: false })` wrapper. Homepage page JS: **1.7 MB → 188 B**, now `○ Static`)*
+- [x] **3d.4** Homepage grid contents editable from the Studio *(2026-08-16 — `project-schema.ts`: added `featured` boolean ("Show on homepage") + `featuredOrder` number (hidden unless featured), plus `orderings` and a `preview` showing `★ Homepage · #n` in the document list; `sanity-utils.ts`: added `getFeaturedProjects(limit)` which orders by `coalesce(featuredOrder, 9999)` and **falls back to the newest projects if nothing is flagged**, so the grid is never empty; `types/Project.ts` updated)*
+- [x] **3d.5** Remove stacked `min-h-screen` and translucent amber panels from all inner pages *(2026-08-16 — `[slug]/Components/Header.tsx` rewritten as PageHero + Section shell taking a `width` prop; `min-h-screen` removed from `[slug]/About.tsx`, `[slug]/Gallery.tsx`, `[slug]/ContactForm.tsx`, `gallery/[slug]/page.tsx`, `service-area/[city]/page.tsx`)*
+- [x] **3d.6** Fix duplicate `<h1>` on the homepage *(2026-08-16 — `Components/About.tsx` used `<h1>About Don Dye</h1>` as a second h1. Now `<h2>`; homepage outline verified as h1 → h2 → h2 → h2 → h3×4)*
+- [x] **3d.7** Gallery page intro copy no longer rendered as the first grid cell *(2026-08-16 — `[slug]/Gallery.tsx`: PortableText intro moved above the grid, which had been knocking the image columns out of alignment)*
+- [x] **3d.8** Unify CTA styling; drop invalid `<button>`-inside-`<a>` nesting *(2026-08-16 — all CTAs are now a single styled `<a>`/`<Link>` with `min-h-[44px]`, consistent hover across every page. Contact form inputs switched `bg-gray-100` → `bg-white` for contrast against cream)*
+
+  **CTA hover treatment (updated 2026-08-16)** — the amber-300 → green-700 colour flip was replaced by a lift-and-brighten: `shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-350 hover:text-gray-900 hover:shadow-lg`. `amber-350` (#EFC849) is defined in `tailwind.config.js`. Applied to all seven CTAs: `Components/Home.tsx`, `Components/About.tsx`, `Components/Gallery.tsx`, `Components/Nav.tsx` ("Contact Us"), `[slug]/About.tsx`, `[slug]/ContactForm.tsx` (submit), `gallery/[slug]/page.tsx`, `service-area/[city]/page.tsx`. **Any new CTA should copy this string** — it is not yet extracted into a shared component or `@apply` class, so it is duplicated by hand.
+
+  **CTA hierarchy — two tiers (2026-08-16)** — CTAs are now split by *intent*, not by page. The
+  conversion action is inverted to deep green so it outranks the lighter amber nav button.
+
+  **Primary / conversion — `bg-green-900 text-amber-200`** (ask for the estimate):
+
+  ```
+  inline-flex min-h-[44px] items-center justify-center rounded-md bg-green-900 px-6 py-3
+  text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800
+  hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300
+  ```
+
+  Applied to: `Components/Home.tsx` (hero — adds `text-lg`, the only size variation), `[slug]/About.tsx`
+  ("Get in Touch Today!"), `[slug]/ContactForm.tsx` (submit), `gallery/[slug]/page.tsx`
+  ("Get a Free Estimate"), `service-area/[city]/page.tsx` ("Contact Us").
+
+  Notes: no weight class, so these render at 400 — deliberate, set by hand. Amber-200 on green-900 is
+  **7.3:1**, hover 5.7:1, both clear AA at that weight. The focus ring is amber because a green ring on a
+  green button is nearly invisible. `hover:text-amber-200` is a no-op held over from the amber string;
+  kept so the two tiers stay diffable.
+
+  **Secondary / navigational — the amber `bg-amber-300 text-gray-800` string above** (move around the
+  site): `Components/Nav.tsx` ("Contact Us" — must stay light, it is the contrast the primary tier is
+  measured against), `Components/Gallery.tsx` ("View My Work"), `Components/About.tsx`
+  ("Learn more about Don Dye").
+
+  Neither tier is extracted into a shared component or `@apply` class, so both strings are duplicated by
+  hand. `Components/Process.tsx` has a third, older amber button style — it is **not imported anywhere**
+  and was left alone; delete the file or restyle it if it is ever wired up.
+
+  Deliberately *not* given this treatment: the Nav hamburger toggle (icon button, keeps `hover:bg-gray-100` — an amber lift would read as a CTA), and text links (nav/footer/breadcrumb `hover:text-green-700`, phone links `hover:underline`).
+- [x] **3d.9** Freepik attribution relocated *(2026-08-16 — was a floating `<span>` between `<main>` and the footer; moved into `Footer.tsx`'s copyright bar. **Now moot** — see 3d.13: the copyright bar is commented out and `home-bg.jpg`, the image the credit was for, is no longer displayed anywhere)*
+
+- [x] **3d.11** Hero band uses the nav's tiled wallpaper instead of `home-bg.jpg` *(2026-08-16 — `PageHero.tsx`: replaced `<Image fill priority src="/home-bg.jpg">` with a tiled CSS background, `<div className="absolute inset-0 bg-site-bg-image bg-repeat" />`, scrim unchanged. **A CSS background is required here, not `next/image`**: the source is a 200×200 tile and `<Image fill>` + `object-cover` would scale that single tile to fill the band instead of repeating it. `bg-site-bg-image` is defined once in `tailwind.config.js`, so nav and hero cannot drift apart. Verified in a prod build: compiled CSS emits `background-repeat:repeat` with no `background-size`, so it tiles at natural 200px exactly like the nav.)*
+
+  Consequences: hero image payload **186 KB → 14 KB**, and the tile is already cached from the nav on every route. `home-bg.jpg` is now unreferenced by the UI — its only remaining mention is the `LocalBusiness` JSON-LD `image` property in `StructuredData.tsx` (an absolute URL for Google, not rendered). LCP priority moved off the hero (a CSS background cannot carry `fetchPriority`) onto the first Recent Work grid image, which still has `priority`.
+
+**Superseded by this phase** (do not action):
+- **3b.4** — **inverted, do not do.** It wanted the nav's CSS background converted *to* `<Image>`; 3d.11 deliberately went the other way and gave the hero the same CSS background. Tiling requires it, and the tile is 14 KB, so there is nothing left to win here.
+- **3c.3 / 3b.3** — Flowbite CSS: already gone; the carousel that needed it no longer exists.
+- **3a.1 / 1.4** — hero `<Image priority>` and its preload: the element those tasks optimized no longer exists. The hero is now a tiled CSS background.
+
+- [ ] **3d.10** Re-run Lighthouse on a production build for all four routes — not done here: `lighthouse` is not installed locally and the redesign changed enough that the Phase 3b/3c numbers are stale. Note `next dev` and `next start` share `.next`, so **stop the dev server before `npm run build && npm start`** or the prod build gets clobbered mid-run.
+
+#### Follow-up polish (hand edits after the system landed, 2026-08-16)
+
+Recorded so the file matches the code. These were design calls made directly in the editor, not from the plan above.
+
+- **3d.12** `Nav.tsx` — added a `<p>Wallcoverings by Don Dye</p>` wordmark beside the logo, and **removed `sticky`** from the header, so the nav scrolls away instead of pinning. `Home.tsx` hero card widened `max-w-2xl → max-w-5xl` with roomier padding (`p-10 md:p-14`). `Footer.tsx` restyled to `bg-cream-deep` with a double amber top border, matching the nav's border treatment.
+- **3d.13** `Footer.tsx` — the whole copyright block is commented out, so **neither the © line nor the Freepik credit renders**. The Freepik credit was specifically for `home-bg.jpg` (no longer displayed after 3d.11), so dropping it is defensible; note that `green-wallpaper-bg.webp` now carries the site's visual identity and its licensing provenance is not recorded anywhere in this repo. Worth confirming before launch.
+- **3d.14** `Components/About.tsx` — `tint` removed, so the homepage is now uniform `cream` end to end. `tint` (`bg-cream-deep`) survives only in `service-area/[city]/page.tsx`. If alternating bands aren't wanted anywhere, that one is the last holdout.
+
+- **3d.16** `Components/Home.tsx` — hero card resized and the `<h1>` made fluid *(2026-08-16)*. Card `max-w-5xl → max-w-4xl` (896px) with much heavier padding: `px-10 pt-16 pb-14 sm:px-14 md:px-16 md:pt-24 md:pb-20`. Note the card's old `max-w-5xl` was **inert** — `PageHero`'s inner wrapper is also `max-w-5xl`, so the card could never be narrower than its parent and `mx-auto` did nothing.
+
+  The `<h1>` moved off breakpoint steps to a fluid `text-[clamp(2.25rem,6.1vw_-_0.7rem,2.875rem)]`. Reason: `page.title` ("Professional Wallpaper Installation") measures a fixed **15.58em**, so any step change at `md` overshoots the container somewhere in the range above it — `md:text-5xl` is 748px of text in a 592px box at vw=768. Scaling continuously holds the text-to-container ratio at a steady **~6% margin** and keeps it on one line from **~722px up**, with no breakpoint dip. Below ~722px it wraps by necessity (one line at 375px would need a ~16px font), so `[text-wrap:balance]` evens the wrap. Tailwind is **3.3.3**, which predates the `text-balance` shorthand — hence the arbitrary-property syntax. The underscores in the clamp are required: Tailwind converts them to spaces, and `6.1vw-0.7rem` without spaces is invalid CSS.
+
+  **`font-extrabold` → `font-bold` here.** Ibarra Real Nova's variable weight axis stops at 700 (`wght@800` returns HTTP 400 from Google Fonts), so 800 makes the browser *synthesize* bold, widening glyphs by a browser-dependent amount that invalidates any width math. **Nine other headings still ask for `font-extrabold` on `font-headers`** and are silently synthesizing too — `[slug]/Components/Header.tsx`, `gallery/[slug]/page.tsx`, `service-area/[city]/page.tsx`, `Components/Gallery.tsx`, `Components/About.tsx`, `Components/Nav.tsx`, `Components/Process.tsx`, `[slug]/Components/Success.tsx`, `[slug]/Components/Failure.tsx`. Worth a sweep to `font-bold`; not done here to keep the change scoped.
+
+- [ ] **3d.15** Decide whether the homepage local-SEO paragraph should come back — the hero's *"Serving Austin, Round Rock, Cedar Park, Leander, Georgetown, Pflugerville, and all of Central Texas"* line was removed with the CTA rework. It was the homepage's only inline city-keyword copy, and the `<h2 class="sr-only">` above it is not a substitute for body text. The footer's service-area links still carry the internal linking, so this is a content-signal question, not a crawl one.
 
 ### Phase 4 — Off-Page & Authority
 
@@ -123,6 +210,12 @@ Built with Next.js 13 (App Router) + Sanity CMS, deployed on Vercel.
 - Google Analytics via `@vercel/analytics`
 
 ### Key Weaknesses Found
+
+> **Historical snapshot — the original 2026-05-02 audit. Do not action from this list;** work from the
+> Implementation Checklist above, which records what actually shipped. Most of these are fixed, and two
+> are now deliberately "wrong" by design: the carousel in #1 no longer exists (Phase 3d), and the CSS
+> `url()` hero in #5 is intentional (3d.11 — a repeating tile cannot use `next/image`).
+
 1. Home gallery carousel uses raw `<img>` tags — no Next.js Image optimization
 2. Generic alt texts on nav logo (`"Flowbite logo"`) and footer logo (`"wia logo"`)
 3. Sanity `page` and `project` schemas have no SEO fields (meta description, OG image, keywords)
@@ -415,7 +508,13 @@ Pull from a Sanity `testimonial` schema so the business owner can manage them in
 3. Re-measure `layout.css` size after Flowbite removal
 **Impact**: Removes render-blocking penalty (~300 ms FCP savings); reduces total CSS payload by ~15 KB.
 
-### 3b.4 Replace Nav Header CSS Background Image
+### 3b.4 Replace Nav Header CSS Background Image — ❌ WILL NOT DO (inverted by 3d.11)
+
+> **Do not action.** Phase 3d.11 went the opposite way: `PageHero` now uses the *same* `bg-site-bg-image`
+> CSS background as the nav, because the source is a repeating 200×200 tile and `<Image fill>` +
+> `object-cover` scales a single tile instead of tiling it. The tile is 14 KB and shared across every
+> route, so the 47 KiB gap below no longer exists. Original text kept for context only.
+
 **File**: `app/(site)/Components/Nav.tsx` (or `tailwind.config.js` `bg-site-bg-image` class)
 **Problem**: `header.sticky` uses `bg-site-bg-image`, a Tailwind custom utility pointing to `green-wallpaper-bg.webp` as a CSS `background-image`. Lighthouse still reports 47 KiB of image delivery savings across three elements — the nav header background is one of them. CSS backgrounds bypass Next.js image optimization (no WebP/AVIF negotiation, no responsive sizes).
 **Fix**: Convert to an absolutely-positioned `<Image fill sizes="100vw">` inside the header, similar to the hero image fix in 3a.1. Remove the `bg-site-bg-image` Tailwind class and the corresponding config entry.
@@ -545,6 +644,8 @@ Monitor monthly rankings for:
 | P0 | ~~Code-split layout.js bundle (3a.2)~~ | ~~High~~ | ~~TBT 1,760 ms → < 200 ms; TTI 30.7 s → < 5 s~~ |
 | P0 | ~~Fix home gallery `<img>` → `<Image>` (1.1)~~ | ~~Low~~ | ~~LCP + CWV~~ |
 | P0 | ~~Fix logo alt texts (1.2)~~ | ~~Trivial~~ | ~~Image search~~ |
+| P0 | ~~Layout & visual system redesign (Phase 3d)~~ | ~~High~~ | ~~Homepage page JS 1.7 MB → 188 B and now `○ Static`; hero image 186 KB → 14 KB~~ |
+| P0 | Re-run Lighthouse on a prod build, all 4 routes (3d.10) | Low | Phase 3b/3c numbers are stale after the redesign |
 | P0 | Run production build baseline (3b.1) | Trivial | Accurate audit; dev overhead gone |
 | P0 | Replace Flowbite Carousel (3b.2) | Medium | page.js 1,092 ms long task → < 100 ms; TBT → < 200 ms; TTI → < 5 s |
 | P0 | Add `sizes` to gallery grid images (3c.2) | Low | 2,647 KiB payload reduction on /gallery; TTI improvement |
@@ -553,7 +654,7 @@ Monitor monthly rankings for:
 | P1 | Purge unused CSS from layout.css (3b.3) | Low | Removes 300 ms render-blocking on home + 611 ms on /gallery; ~15 KB savings |
 | P1 | Fix render-blocking CSS on gallery (3c.3) | Low | Blocked by 3b.2+3b.3; verify after Flowbite removal |
 | P1 | Fix heading order on gallery page (3c.4) | Low | Accessibility; consistent across all routes |
-| P1 | Replace nav header CSS background (3b.4) | Low | Closes 47 KiB image delivery gap |
+| ❌ | ~~Replace nav header CSS background (3b.4)~~ | — | Will not do — inverted by 3d.11; tile must stay a CSS background |
 | P1 | Update browserslist targets (3b.5) | Trivial | 9 KB legacy JS savings |
 | P1 | Fix touch target spacing (3b.6) | Trivial | Closes remaining accessibility violation |
 | P1 | ~~Fix "Read More" link text (3a.8)~~ | ~~Trivial~~ | ~~SEO 92 → 100~~ |
@@ -581,15 +682,20 @@ Monitor monthly rankings for:
 
 | File | Purpose |
 |------|---------|
-| `app/(site)/layout.tsx` | Root metadata, font loading, structured data injection |
-| `app/(site)/page.tsx` | Home page — landing content |
+| `app/(site)/layout.tsx` | Root metadata, structured data, `bg-cream` body, font variables |
+| `app/(site)/fonts.ts` | Single place all three fonts are instantiated |
+| `app/(site)/Components/PageHero.tsx` | Shared bounded hero band (`size="lg"` / `"sm"`) — carries the `<h1>`; tiled `bg-site-bg-image` + cream scrim |
+| `app/(site)/Components/Section.tsx` | Shared vertical rhythm + width + `tint` band |
+| `app/(site)/page.tsx` | Home page — PageHero → Recent Work grid → About |
 | `app/(site)/[slug]/page.tsx` | Dynamic pages — `generateMetadata()` lives here |
 | `app/(site)/Components/StructuredData.tsx` | JSON-LD schemas (LocalBusiness, Service) |
-| `app/(site)/Components/Gallery.tsx` | Home carousel — `<Image>` with `fill` + `priority` on first slide |
-| `app/(site)/[slug]/Gallery.tsx` | Gallery page grid — needs `priority` on index 0 + `sizes` on all images (3c.1, 3c.2) |
-| `app/(site)/Components/Nav.tsx` | Custom Tailwind nav — no Flowbite dependency; hamburger toggle via useState |
-| `app/(site)/Components/Footer.tsx` | Footer with WIA badge; section headings are `<h3>` |
+| `app/(site)/Components/Gallery.tsx` | Homepage "Recent Work" static grid — server component, no carousel |
+| `app/(site)/[slug]/Gallery.tsx` | Gallery page grid — `priority` on index 0, `sizes` on all images |
+| `app/(site)/Components/Nav.tsx` | Custom Tailwind nav — no Flowbite; hamburger via useState; `bg-site-bg-image` tile (shared with PageHero); not sticky |
+| `app/(site)/Components/Footer.tsx` | Footer with WIA badge, `bg-cream-deep`; section headings are `<h3>`; copyright bar currently commented out |
+| `tailwind.config.js` | `colors.cream` / `cream.deep` palette + `bg-site-bg-image` tile — the shared design tokens |
 | `app/sitemap.ts` | Dynamic sitemap generation |
 | `app/robots.ts` | Crawler directives |
-| `sanity/schemas/page-schema.ts` | CMS page type — needs SEO fields |
-| `sanity/schemas/project-schema.ts` | CMS project type — needs description + SEO fields |
+| `sanity/schemas/page-schema.ts` | CMS page type — has SEO fields |
+| `sanity/schemas/project-schema.ts` | CMS project type — SEO fields + `featured` / `featuredOrder` for the homepage grid |
+| `sanity/sanity-utils.ts` | GROQ queries — `getFeaturedProjects()` drives the homepage grid |

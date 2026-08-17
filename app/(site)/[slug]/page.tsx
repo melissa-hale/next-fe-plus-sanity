@@ -83,7 +83,11 @@ export default async function Page({ params }: Props) {
   return (
     <div>
       <BreadcrumbSchema slug={page.slug} title={page.title} />
-      <Header title={page.title} id={page._id}>
+      <Header
+        title={page.title}
+        id={page._id}
+        width={page.slug === 'gallery' ? 'wide' : 'narrow'}
+      >
         {page.slug == 'gallery' && <Gallery content={page.content} />}
         {page.slug == 'contact' && <ContactForm content={page.content} />}
         {page.slug == 'about' && <About content={page.content} />}
