@@ -112,7 +112,8 @@ export default async function ProjectPage({ params }: Props) {
     <div>
       <ProjectSchema project={project} />
 
-      <PageHero size="sm" width="narrow">
+      {/* `wide` to match the Section below — see PageHero's `width` note. */}
+      <PageHero size="sm" width="wide">
         <Link
           href="/gallery"
           className="mb-4 inline-block text-sm font-medium text-green-800 hover:text-green-600"
@@ -124,46 +125,56 @@ export default async function ProjectPage({ params }: Props) {
         </h1>
       </PageHero>
 
-      <Section width="narrow" spacing="tight">
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md">
-          <Image
-            src={project.image}
-            alt={project.alt ?? project.name}
-            fill
-            className="object-cover"
-            priority
-            sizes="(max-width: 768px) 100vw, 768px"
-          />
-        </div>
+      <Section width="wide" spacing="tight">
+        {/*
+          This page exists to show the photo whole — the grid that links here
+          already showed the 4:3 crop. So: no fixed aspect box and no
+          `object-cover`. The intrinsic size comes from Sanity's asset metadata,
+          and `w-auto h-auto` under both max constraints lets the browser size
+          the image by its own ratio, whichever of the two limits binds first.
+          Most uploads are portrait 3:4, so the height cap is usually the one
+          that does; landscape shots get the full column width.
+        */}
+        <Image
+          src={project.image}
+          alt={project.alt ?? project.name}
+          width={project.dimensions?.width ?? 1200}
+          height={project.dimensions?.height ?? 900}
+          className="mx-auto h-auto max-h-[85vh] w-auto max-w-full rounded-lg shadow-md"
+          priority
+          sizes="(min-width: 1024px) 976px, 100vw"
+        />
 
-        {project.description && (
-          <p className="mt-8 text-lg leading-relaxed text-gray-800">{project.description}</p>
-        )}
+        <div className="mx-auto mt-10 max-w-3xl">
+          {project.description && (
+            <p className="text-lg leading-relaxed text-gray-800">{project.description}</p>
+          )}
 
-        {project.tags && project.tags.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
-              >
-                {tag}
-              </span>
-            ))}
+          {project.tags && project.tags.length > 0 && (
+            <div className="mt-6 flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-12 border-t border-amber-200 pt-8">
+            <p className="mb-5 text-gray-800">
+              Interested in a similar look for your home? Don Dye serves Austin and all of Central
+              Texas.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-green-900 px-6 py-3 text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
+            >
+              Get a Free Estimate
+            </Link>
           </div>
-        )}
-
-        <div className="mt-12 border-t border-amber-200 pt-8">
-          <p className="mb-5 text-gray-800">
-            Interested in a similar look for your home? Don Dye serves Austin and all of Central
-            Texas.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-green-900 px-6 py-3 text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
-          >
-            Get a Free Estimate
-          </Link>
         </div>
       </Section>
     </div>

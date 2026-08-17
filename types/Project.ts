@@ -13,6 +13,8 @@ export type Project = {
     name: string;
     slug: string;
     image: string;
+    /** Intrinsic size of the upload. Only selected by `getProject`. */
+    dimensions?: { width: number; height: number };
     url: string;
     content: PortableTextBlock[];
     alt: string;

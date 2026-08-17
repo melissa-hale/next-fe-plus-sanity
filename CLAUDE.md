@@ -234,6 +234,12 @@ remaining point is LCP. Best Practices 96 is the localhost-only Vercel Analytics
 
   **Still open — the copy exists and is unpublished.** The 3 blocks describe the phone call → site visit → estimate flow and the wall-prep philosophy. They read fine and break none of the Phase 7 copy rules. To publish them, give `[slug]/page.tsx` a default branch rendering `page.content` for unmatched slugs — which would also mean any *future* page created in the Studio renders instead of appearing blank, the more general bug here. Fix the typo "he typically begin" → "begins" at the same time. Then remove `my-process` from `EXCLUDED_FROM_SITEMAP`.
 
+- [x] **8.10** The gallery detail page was cropping the photo it exists to show *(2026-08-17 — `gallery/[slug]/page.tsx` rendered every project into a fixed `aspect-[4/3]` box with `object-cover`, inside a `max-w-3xl` column. Most uploads are portrait 3:4 (`1536×2048` and similar), so the page reached by clicking a thumbnail showed the **same centre crop the thumbnail already showed**, only slightly larger — the top and bottom of every portrait shot were cut off.*
+
+  *Fix: `getProject` now selects `image.asset->metadata.dimensions{width, height}` (`types/Project.ts` gains an optional `dimensions`), and the page renders `<Image width height>` with `mx-auto h-auto max-h-[85vh] w-auto max-w-full` — no aspect box, no `object-cover`. The browser sizes by the photo's own ratio and stops at whichever limit binds first: portraits hit the 85vh height cap, landscape shots take the full column. Section widened `narrow` → `wide` so landscape gets 976px instead of 768px, with `PageHero` moved to `wide` to match (its `width` prop must track the Section's) and the copy below re-wrapped in `mx-auto max-w-3xl` to keep the reading measure.*
+
+  ***Only `getProject` selects dimensions*** *— the grids crop to 4:3 deliberately and don't need them. This page also still stays off `thumbnail4x3()` for the same reason it always did: the CDN crop is exactly what was wrong here.)*
+
 - [x] **8.9** `/home` was a second, reachable copy of the home page *(2026-08-17 — the Sanity page `home` rendered at `/home` and self-canonicalised to `/home`, duplicating `/`. `next.config.js` now 301s `/home` → `/` (Next emits 308, which Google treats the same). It was already excluded from the sitemap, so this only closes off stray inbound or internal links.)*
 
 ### Phase 4 — Off-Page & Authority
@@ -765,6 +771,7 @@ Monitor monthly rankings for:
 | `app/(site)/Components/StructuredData.tsx` | JSON-LD schemas (LocalBusiness, Service) |
 | `app/(site)/Components/Gallery.tsx` | Homepage "Recent Work" static grid — server component, no carousel |
 | `app/(site)/[slug]/Gallery.tsx` | Gallery page grid — `priority` on index 0, `sizes` on all images |
+| `app/(site)/gallery/[slug]/page.tsx` | Project detail page — shows the photo **whole**, at its own aspect ratio, from Sanity's asset dimensions. No `aspect-[4/3]`, no `object-cover`, no `thumbnail4x3()` here: those crop, and the crop is what the linking thumbnail already showed (Phase 8.10) |
 | `app/(site)/Components/Nav.tsx` | Custom Tailwind nav — no Flowbite; hamburger via useState; `bg-site-bg-image` tile (shared with PageHero); not sticky |
 | `app/(site)/Components/Footer.tsx` | Footer with WIA badge, `bg-cream-deep`; section headings are `<h3>`; copyright bar currently commented out |
 | `tailwind.config.js` | `colors.cream` / `cream.deep` palette + `bg-site-bg-image` tile — the shared design tokens |

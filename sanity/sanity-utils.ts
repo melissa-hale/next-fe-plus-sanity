@@ -84,6 +84,9 @@ export async function getProject(slug: string): Promise<Project> {
         name,
         "slug": slug.current,
         "image": image.asset->url,
+        // Only the detail page needs these: it renders the photo whole, at its
+        // own aspect ratio. The grids crop to 4:3 and don't care.
+        "dimensions": image.asset->metadata.dimensions{width, height},
         "alt": image.alt,
         url,
         content,
