@@ -1,4 +1,5 @@
 import { getProjects } from '@/sanity/sanity-utils'
+import { thumbnail4x3 } from '@/sanity/image'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PortableTextBlock } from 'sanity'
@@ -41,10 +42,13 @@ export default async function Gallery({ content }: Props) {
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src={project.image}
+                  src={thumbnail4x3(project.image)}
                   alt={project.alt ?? project.name}
                   fill
                   priority={index === 0}
+                  // See Components/Gallery.tsx — same 4:3 grid thumbnail, same
+                  // reasoning. AVIF only beats WebP below the default q=75.
+                  quality={60}
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                 />

@@ -27,6 +27,12 @@
     "sharp": "^0.34.5",
     "typescript": "5.1.6"
   },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions"
+  ],
   "devDependencies": {
     "@types/nodemailer": "^6.4.11",
     "autoprefixer": "^10.4.14",

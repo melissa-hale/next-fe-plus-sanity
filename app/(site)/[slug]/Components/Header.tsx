@@ -14,12 +14,14 @@ type Props = {
 export default async function Header({ title, id, width = 'narrow', children }: Props) {
   return (
     <div key={id}>
-      <PageHero size="sm">
+      <PageHero size="sm" width={width}>
         <h1 className="font-headers text-4xl font-extrabold text-green-900 md:text-5xl">
           {title}
         </h1>
       </PageHero>
-      <Section width={width}>{children}</Section>
+      <Section width={width} spacing="tight">
+        {children}
+      </Section>
     </div>
   )
 }

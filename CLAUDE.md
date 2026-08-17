@@ -20,7 +20,7 @@ Check items off as they are completed. Add a short note with the date when done.
 
 - [x] **2.1** Add `seo` object field (metaTitle, metaDescription, ogImage) to `page` and `project` Sanity schemas; update `generateMetadata()` in `[slug]/page.tsx` to read from these fields *(2026-05-02 — `page-schema.ts` + `project-schema.ts`: added `seo` object with metaTitle, metaDescription, ogImage; `types/Page.ts` + `types/Project.ts`: added `PageSeo`/`ProjectSeo` types; `sanity-utils.ts`: updated GROQ for `getPage` + `getProject` to fetch `seo { metaTitle, metaDescription, ogImageUrl }`; `[slug]/page.tsx`: `generateMetadata()` now reads Sanity SEO fields first, falls back to hardcoded map)*
 - [x] **2.2** Add `AggregateRating` / `Review` structured data to `LocalBusinessSchema` *(2026-05-02 — deferred: `aggregateRating` block omitted until real reviews exist; adding fake counts risks a Google manual penalty. Revisit when task 3.4 (reviews page) is implemented)*
-- [x] **2.3** Create `FAQSchema.tsx` with `FAQPage` JSON-LD and render on home page *(2026-05-02 — created `app/(site)/Components/FAQSchema.tsx` with 6 FAQs; imported and rendered in `app/(site)/page.tsx`)*
+- [x] **2.3** Create `FAQSchema.tsx` with `FAQPage` JSON-LD and render on home page *(2026-05-02 — created `app/(site)/Components/FAQSchema.tsx` with 6 FAQs; imported and rendered in `app/(site)/page.tsx`. **Superseded 2026-08-17 — see 7.5.** The markup shipped with no visible answers on the page, and the "FAQ rich results / PAA real estate" impact claimed here is stale: since August 2023 Google shows FAQ rich results only for authoritative government and health sites. The JSON-LD is kept because it is accurate and free, but the visible list is now the part that earns its place.)*
 - [x] **2.4** Add `BreadcrumbList` JSON-LD to all inner pages (`[slug]/page.tsx`) *(2026-05-02 — `[slug]/page.tsx`: added inline `BreadcrumbSchema` component rendering 2-level breadcrumb JSON-LD, rendered above `<Header>`)*
 - [x] **2.5** Enrich `LocalBusinessSchema` with `priceRange`, `image`, `email`, `sameAs`, `hasMap`, `paymentAccepted` *(2026-05-02 — `StructuredData.tsx`: added `image`, `paymentAccepted`, `hasMap`; expanded `areaServed` to all 8 Central Texas cities; `priceRange` and `sameAs` were already present)*
 
@@ -60,12 +60,12 @@ Check items off as they are completed. Add a short note with the date when done.
 > Core Web Vitals: LCP **2.2 s** (passing), FCP 1.1 s (passing), TBT **1,130 ms** (failing), CLS **0** (passing), TTI **22.2 s** (catastrophic).
 > Note: audit was run on the dev server — run `npm run build && npm start` for accurate prod numbers before actioning these.
 
-- [ ] **3b.1** Run production build (`npm run build && npm start`) and re-audit — dev mode inflates bundles and disables minification; several findings (unminified JS/CSS, missing source maps) are dev artifacts that vanish in prod
+- [x] **3b.1** Run production build (`npm run build && npm start`) and re-audit — dev mode inflates bundles and disables minification; several findings (unminified JS/CSS, missing source maps) are dev artifacts that vanish in prod *(2026-08-17 — done as part of Phase 8; all the dev-only findings did vanish. TBT is **0 ms** and CLS **0** on all five routes)*
 - [x] **3b.2** Replace Flowbite Carousel in `Gallery.tsx` with a lightweight alternative — `page.js` is 1.7 MB with a 1,092 ms long task driven by the carousel *(2026-05-03 — `Components/Gallery.tsx`: replaced `Flowbite`/`Carousel` with CSS `scroll-snap` + `useEffect` auto-advance; `flowbite` and `flowbite-react` uninstalled from `package.json`)*
 - [x] **3b.3** Purge unused CSS — `layout.css` is 91% unused (15.8 KB wasted out of 17 KB), render-blocking (+300 ms FCP); verify Tailwind `content` glob covers all template files, then remove any leftover Flowbite global CSS imports *(2026-05-03 — `tailwind.config.js`: removed Flowbite from `content` array and `plugins`; added `sanity/**/*.{ts,tsx}` and `types/**/*.ts` to content glob; Flowbite global CSS eliminated by package removal)*
 - [-] **3b.4** ~~Convert nav header CSS background to `<Image>`~~ — **will not do; inverted by 3d.11.** `bg-site-bg-image` is now used deliberately by *both* the nav and `PageHero`, because a repeating 200×200 tile cannot be expressed with `<Image fill>`. The tile is 14 KB and shared across every route, so the 47 KiB gap this targeted is gone.
-- [ ] **3b.5** Update browserslist targets to drop legacy JS transforms — `@babel/plugin-transform-classes` in `main-app.js` adds 9 KB; add `"browserslist"` to `package.json` targeting last 2 versions of Chrome/Firefox/Safari/Edge
-- [ ] **3b.6** Fix remaining touch target spacing — `<a href="/gallery">` and `<a href="/about">` still flagged (height is 48 px but gap between adjacent targets is below the required 12 px minimum)
+- [x] **3b.5** Update browserslist targets to drop legacy JS transforms — `@babel/plugin-transform-classes` in `main-app.js` adds 9 KB; add `"browserslist"` to `package.json` targeting last 2 versions of Chrome/Firefox/Safari/Edge *(2026-08-17 — `package.json`: added the `browserslist` key as specified. Note Lighthouse still reports `legacy-javascript-insight`: the ~10 KB of `Array.prototype.flat` / `Object.fromEntries` / `String.prototype.trimEnd` polyfills live in a **Next-vendored framework chunk**, not in app code, so browserslist does not reach them. Not actionable without a Next upgrade; the audit is worth ignoring here)*
+- [x] **3b.6** Fix remaining touch target spacing — `<a href="/gallery">` and `<a href="/about">` still flagged (height is 48 px but gap between adjacent targets is below the required 12 px minimum) *(2026-08-17 — no longer reproduces. The Phase 3d CTA rework replaced the cramped action row, and `target-size` passes on all five routes with **Accessibility 100** everywhere)*
 
 ### Phase 3c — Gallery Page Performance (Lighthouse Audit 2026-05-03)
 
@@ -81,7 +81,7 @@ Check items off as they are completed. Add a short note with the date when done.
 
 - [x] **3c.4** Fix heading order on gallery page — Lighthouse flags a heading-order violation on `/gallery` *(2026-05-03 — `[slug]/Gallery.tsx`: wrapped return in `<>`, added `<h2 className="sr-only">Our Work</h2>` before the grid; `Header.tsx` already renders `<h1>` so sequence is now h1 → h2 → h3 footer)*
 
-- [ ] **3c.5** Fix console 404 for Vercel Analytics — `/_vercel/insights/script.js` returns 404 in local dev. This is a dev-environment artifact (the Vercel injected script is absent on localhost). Not a production issue, but worth confirming it does not appear in production logs after the next deploy.
+- [x] **3c.5** Fix console 404 for Vercel Analytics — `/_vercel/insights/script.js` returns 404 in local dev. This is a dev-environment artifact (the Vercel injected script is absent on localhost). Not a production issue, but worth confirming it does not appear in production logs after the next deploy. *(2026-08-17 — confirmed it also occurs under `next start`, not just `next dev`; it is a **localhost** artifact, not a dev-mode one. It is the sole reason Best Practices sits at **96 instead of 100** on every route — `errors-in-console` is the only failing audit in that category. Vercel injects the script on the deployed site, so this resolves itself on deploy. **Re-check Best Practices post-deploy to confirm 100**; that is the one number in Phase 8 that localhost cannot verify.)*
 
 ### Phase 3d — Layout & Visual System Redesign (2026-08-16)
 
@@ -137,8 +137,8 @@ the child was the cause of the arbitrary dead space on every inner page.
   ("Learn more about Don Dye").
 
   Neither tier is extracted into a shared component or `@apply` class, so both strings are duplicated by
-  hand. `Components/Process.tsx` has a third, older amber button style — it is **not imported anywhere**
-  and was left alone; delete the file or restyle it if it is ever wired up.
+  hand. *(`Components/Process.tsx` carried a third, older amber button style; it was never imported and
+  was **deleted 2026-08-17**, so only the two tiers above exist now.)*
 
   Deliberately *not* given this treatment: the Nav hamburger toggle (icon button, keeps `hover:bg-gray-100` — an amber lift would read as a CTA), and text links (nav/footer/breadcrumb `hover:text-green-700`, phone links `hover:underline`).
 - [x] **3d.9** Freepik attribution relocated *(2026-08-16 — was a floating `<span>` between `<main>` and the footer; moved into `Footer.tsx`'s copyright bar. **Now moot** — see 3d.13: the copyright bar is commented out and `home-bg.jpg`, the image the credit was for, is no longer displayed anywhere)*
@@ -152,7 +152,7 @@ the child was the cause of the arbitrary dead space on every inner page.
 - **3c.3 / 3b.3** — Flowbite CSS: already gone; the carousel that needed it no longer exists.
 - **3a.1 / 1.4** — hero `<Image priority>` and its preload: the element those tasks optimized no longer exists. The hero is now a tiled CSS background.
 
-- [ ] **3d.10** Re-run Lighthouse on a production build for all four routes — not done here: `lighthouse` is not installed locally and the redesign changed enough that the Phase 3b/3c numbers are stale. Note `next dev` and `next start` share `.next`, so **stop the dev server before `npm run build && npm start`** or the prod build gets clobbered mid-run.
+- [x] **3d.10** Re-run Lighthouse on a production build for all routes — **five**: `/`, `/about`, `/gallery`, `/contact`, `/service-area`. *(2026-08-17 — done; see **Phase 8** for the numbers and the fixes they drove. `lighthouse` needs no install, `npx lighthouse` fetches it. The dev-server/`.next` hazard is real — the run below was done with port 3000 confirmed free first.)*
 
 #### Follow-up polish (hand edits after the system landed, 2026-08-16)
 
@@ -166,9 +166,75 @@ Recorded so the file matches the code. These were design calls made directly in 
 
   The `<h1>` moved off breakpoint steps to a fluid `text-[clamp(2.25rem,6.1vw_-_0.7rem,2.875rem)]`. Reason: `page.title` ("Professional Wallpaper Installation") measures a fixed **15.58em**, so any step change at `md` overshoots the container somewhere in the range above it — `md:text-5xl` is 748px of text in a 592px box at vw=768. Scaling continuously holds the text-to-container ratio at a steady **~6% margin** and keeps it on one line from **~722px up**, with no breakpoint dip. Below ~722px it wraps by necessity (one line at 375px would need a ~16px font), so `[text-wrap:balance]` evens the wrap. Tailwind is **3.3.3**, which predates the `text-balance` shorthand — hence the arbitrary-property syntax. The underscores in the clamp are required: Tailwind converts them to spaces, and `6.1vw-0.7rem` without spaces is invalid CSS.
 
-  **`font-extrabold` → `font-bold` here.** Ibarra Real Nova's variable weight axis stops at 700 (`wght@800` returns HTTP 400 from Google Fonts), so 800 makes the browser *synthesize* bold, widening glyphs by a browser-dependent amount that invalidates any width math. **Nine other headings still ask for `font-extrabold` on `font-headers`** and are silently synthesizing too — `[slug]/Components/Header.tsx`, `gallery/[slug]/page.tsx`, `service-area/[city]/page.tsx`, `Components/Gallery.tsx`, `Components/About.tsx`, `Components/Nav.tsx`, `Components/Process.tsx`, `[slug]/Components/Success.tsx`, `[slug]/Components/Failure.tsx`. Worth a sweep to `font-bold`; not done here to keep the change scoped.
+  **`font-extrabold` → `font-bold` here.** Ibarra Real Nova's variable weight axis stops at 700 (`wght@800` returns HTTP 400 from Google Fonts), so 800 makes the browser *synthesize* bold, widening glyphs by a browser-dependent amount that invalidates any width math. **Nine other headings still ask for `font-extrabold` on `font-headers`** and are silently synthesizing too — `[slug]/Components/Header.tsx`, `gallery/[slug]/page.tsx`, `service-area/[city]/page.tsx`, `Components/Gallery.tsx`, `Components/About.tsx`, `Components/Nav.tsx`, ~~`Components/Process.tsx`~~ *(deleted)*, `[slug]/Components/Success.tsx`, `[slug]/Components/Failure.tsx`. Worth a sweep to `font-bold`; not done here to keep the change scoped.
 
 - [ ] **3d.15** Decide whether the homepage local-SEO paragraph should come back — the hero's *"Serving Austin, Round Rock, Cedar Park, Leander, Georgetown, Pflugerville, and all of Central Texas"* line was removed with the CTA rework. It was the homepage's only inline city-keyword copy, and the `<h2 class="sr-only">` above it is not a substitute for body text. The footer's service-area links still carry the internal linking, so this is a content-signal question, not a crawl one.
+
+### Phase 6 — Service Area Page Redesign → superseded by Phase 7
+
+> Tracked in full in **`docs/service-area-redesign.md`** — that file is the source of truth. **Read its
+> Phase 7 section first**; all of Phase 6 is historical.
+
+- [x] **6.code** All unblocked code tasks complete *(2026-08-16 → 2026-08-17 — per-city intro copy, hero photo, work strip, process steps, FAQ + `FAQPage` JSON-LD, dual CTA with `?city=` attribution, title-suffix fix, per-city `og:image`, `keywords` removal, cross-links cut 12 → 5, new `/service-area` hub, city list de-duplicated across three files)*
+- [-] **6.content** ~~Blocked on Don~~ — **moot.** The pages it was blocking are gone (Phase 7).
+
+### Phase 7 — Service Area Consolidation (2026-08-17)
+
+> Full record in **`docs/service-area-redesign.md` § Phase 7`**.
+
+- [x] **7.1** Delete the 13 `/service-area/[city]` pages; 301 them to `/service-area` *(2026-08-17 — Phase 6's §6.0 copy strategy characterised each town's construction era and building stock ("built before drywall", "almost entirely new construction") in a voice of local-architecture authority Don does not claim. Stripping it left 13 identical pages, so they were consolidated. `next.config.js` redirects `/service-area/:city` → `/service-area`, one segment deep so the hub is untouched. `app/sitemap.ts` drops from 14 service-area routes to 1 — a redirecting URL must never be listed in a sitemap.)*
+- [x] **7.2** Reduce `cities.ts` to a plain town list *(2026-08-17 — `CityData` record → `serviceAreas: string[]`, 15 names. No per-town copy, headline, metaDescription, neighborhoods, or FAQs. Still the single source of truth: the hub, `Footer.tsx`, and `app/sitemap.ts` all read it.)*
+- [x] **7.3** Two-column layout on the surviving hub *(2026-08-17 — the full-width 16:9 hero band that opened every service area page is replaced by a `md:grid-cols-2` row: copy + both CTAs left, one 4:3 photo right, `sizes="(min-width: 768px) 50vw, 100vw"`. `PageHero size="sm"` still carries the `<h1>`, so the page-header pattern is unchanged from `/about` and `/gallery`. Also added the `twitter` metadata block the hub never had — `twitter:*` was falling through to the root layout's homepage copy, so the OG and Twitter cards disagreed.)*
+- [x] **7.4** Remove competitor comparisons sitewide *(2026-08-17 — "the step most bids leave out and the reason installations fail" and "the step quietly dropped from cheaper bids" appeared in `ProcessSteps.tsx` and in four city intros. Steps 2 and 4 of `ProcessSteps.tsx` rewritten to describe the work; the city copy went with the pages.)*
+
+- [x] **7.5** Give the home page a visible FAQ and make the copy single-source *(2026-08-17 — `Components/FAQSchema.tsx` and `Components/FAQList.tsx` merged into **`Components/FAQ.tsx`**, which owns `homeFaqs` and renders both the visible `<details>` list and the `FAQPage` JSON-LD from that one array. The two files it replaced were paired only by a comment instructing the caller to pass the same array to each — a convention that eventually gets forgotten. Rendered last on the home page, after About: these are objection-handling questions and belong after the work and the pitch. Verified 6 visible questions, 6 `Question` nodes, answer strings byte-identical between the DOM and the JSON-LD. `/service-area` deliberately emits no `FAQPage` — duplicate Q&As across two URLs help nobody.)*
+
+  **The rich-result payoff assumed by 2.3 and §6.5 no longer exists.** Google restricted FAQ rich results to authoritative government and health sites in August 2023. Keep the markup — it is accurate, costs nothing, and still helps machines parse the business — but do not add FAQ blocks to new pages expecting SERP dropdowns. Add them because the questions are worth answering.
+
+**Copy rules established here — these bind all future service-area and city copy:**
+1. No characterising a town's construction era, wall material, or building stock. Don's authority is the work, not local architectural history.
+2. No claim that a photo was taken anywhere — the gallery carries no location data.
+3. No comparisons to other installers.
+4. No invented numbers (pricing, lead times, response times, review counts).
+
+### Phase 8 — Production Readiness (2026-08-17)
+
+> First Lighthouse run ever done against a **production build** (`npm run build && npm start`), all five
+> routes, `npx lighthouse` mobile preset. This closes 3b.1, 3b.5, 3b.6, 3c.5 and 3d.10.
+
+**Scores — baseline → final** (perf / a11y / best-practices / SEO):
+
+| Route | Before | After | LCP |
+|---|---|---|---|
+| `/` | 87 / 100 / 96 / 100 | **95** / 100 / 96 / 100 | 3.9 s → **2.8 s** |
+| `/about` | 96 / 98 / 96 / 100 | **97** / **100** / 96 / 100 | 2.7 s → **2.5 s** |
+| `/gallery` | 81 / 100 / 96 / 100 | **90** / 100 / 96 / 100 | 5.0 s → **3.5 s** |
+| `/contact` | 96 / 99 / 96 / 100 | **96** / **100** / 96 / 100 | 2.7 s → **2.6 s** |
+| `/service-area` | 93 / 100 / 96 / 100 | **96** / 100 / 96 / 100 | 3.1 s → **2.6 s** |
+
+TBT **0 ms** and CLS **0** on every route, before and after — the Phase 3b/3c JS work has held. Every
+remaining point is LCP. Best Practices 96 is the localhost-only Vercel Analytics 404 (see 3c.5); expect
+100 on deploy. `/gallery` was measured three times to confirm 90 is stable, not run variance.
+
+- [x] **8.1** Build was failing — two `react/no-unescaped-entities` errors *(2026-08-17 — `[slug]/ContactForm.tsx` and `service-area/page.tsx`. `next build` runs ESLint and **fails the build** on these, so the branch could not have deployed. Note the ContactForm fix also dropped "I'll usually respond within a day or so" → "as soon as I can": that was a response-time claim, which Phase 7 copy rule 4 forbids)*
+
+- [x] **8.2** `/[slug]` was rendering fully dynamic *(2026-08-17 — `[slug]/page.tsx` had no `generateStaticParams`, so `/about`, `/gallery` and `/contact` were `λ` server-rendered per request with `cache-control: private, no-store`. That cost a Sanity round trip on every hit and disqualified all three from the browser's back/forward cache. Added `generateStaticParams` off the existing `getPages()`; they are now `●` prerendered and serve `s-maxage=60, stale-while-revalidate`, picking up the 60 s `revalidate` already on the fetches. `dynamicParams` stays default-true, so a page published in the Studio after a deploy still renders on first request)*
+
+- [x] **8.3** Enable AVIF — **but only together with a quality drop** *(2026-08-17 — `next.config.js`: `formats: ['image/avif', 'image/webp']`. The important finding: **at the default `q=75` Next's AVIF is *larger* than its WebP** — 126 KB vs 114 KB on the gallery LCP image — so enabling AVIF alone makes things worse. AVIF only wins below 75. Grid thumbnails are therefore pinned to `quality={60}`. If anyone raises thumbnail quality back toward 75, re-measure or AVIF silently becomes a regression)*
+
+- [x] **8.4** Crop 4:3 thumbnails at the Sanity CDN *(2026-08-17 — new **`sanity/image.ts`** exporting `thumbnail4x3()`. The uploads are portrait phone photos (typically 1536×2048) and every grid thumbnail shows them in an `aspect-[4/3]` box under `object-cover`, so ~40% of every downloaded image was being thrown away to crop it. Appending `?w=1200&h=900&fit=crop&auto=format` makes Sanity send the crop instead. Gallery LCP image: **114 KB → 52 KB** all told. Applied in `Components/Gallery.tsx`, `[slug]/Gallery.tsx`, `service-area/page.tsx`. `fit=crop` centre-crops, matching what `object-cover` already did, so framing is unchanged. **`gallery/[slug]` deliberately does not use this** — the detail page shows the whole photo at default quality)*
+
+- [x] **8.5** Preload the nav wallpaper tile *(2026-08-17 — the tile was the **LCP element on the home page** and, being a CSS background, was flagged `requestDiscoverable: false` — the browser cannot find it until the stylesheet is parsed, and it cannot carry a priority hint. `layout.tsx` now preloads `/green-wallpaper-bg.webp`. **This does not reopen 3b.4**: the tile stays a CSS background because a repeating 200×200 tile cannot be expressed with `<Image fill>`; only discovery is fixed. Note React 18.2's types want lowercase `fetchpriority` on `<link>`, not `fetchPriority`)*
+
+- [x] **8.6** Drop Montserrat — a font nothing used *(2026-08-17 — it was instantiated in `fonts.ts`, applied to `<body>`, and declared in `tailwind.config.js`, so it downloaded on every route. `font-montserrat` appeared in **zero** components; the ones that used it went away in the Phase 3d redesign. Removed from all three files — a third of the site's font payload, 95 KB → 60 KB. Task 1.3's migration is thereby moot)*
+
+- [x] **8.7** Fix heading order on `/about` and `/contact` *(2026-08-17 — both went `<h1>` straight to the footer's `<h3>`s. Added an `sr-only` `<h2>` to `[slug]/About.tsx` and `[slug]/ContactForm.tsx`, the same fix 3c.4 already applied to the gallery grid. Accessibility is now **100 on all five routes**)*
+
+- [x] **8.8** `/my-process` was an empty page in the sitemap — **dropped from the sitemap** *(2026-08-17 — `[slug]/page.tsx` passes children only for the slugs `gallery`, `contact` and `about`; every other page document falls through to a `<Header>` with no children. The Sanity page `my-process` ("Working with Don") has **3 content blocks that have never rendered**, so the live URL was an `<h1>` and nothing else while `app/sitemap.ts` submitted it to Google — a soft-404 signal. `app/sitemap.ts` now filters it via the documented `EXCLUDED_FROM_SITEMAP` list. **The page is still reachable and still empty** — this stops the bad signal, it does not fix the page.)*
+
+  **Still open — the copy exists and is unpublished.** The 3 blocks describe the phone call → site visit → estimate flow and the wall-prep philosophy. They read fine and break none of the Phase 7 copy rules. To publish them, give `[slug]/page.tsx` a default branch rendering `page.content` for unmatched slugs — which would also mean any *future* page created in the Studio renders instead of appearing blank, the more general bug here. Fix the typo "he typically begin" → "begins" at the same time. Then remove `my-process` from `EXCLUDED_FROM_SITEMAP`.
+
+- [x] **8.9** `/home` was a second, reachable copy of the home page *(2026-08-17 — the Sanity page `home` rendered at `/home` and self-canonicalised to `/home`, duplicating `/`. `next.config.js` now 301s `/home` → `/` (Next emits 308, which Google treats the same). It was already excluded from the sitemap, so this only closes off stray inbound or internal links.)*
 
 ### Phase 4 — Off-Page & Authority
 
@@ -645,8 +711,11 @@ Monitor monthly rankings for:
 | P0 | ~~Fix home gallery `<img>` → `<Image>` (1.1)~~ | ~~Low~~ | ~~LCP + CWV~~ |
 | P0 | ~~Fix logo alt texts (1.2)~~ | ~~Trivial~~ | ~~Image search~~ |
 | P0 | ~~Layout & visual system redesign (Phase 3d)~~ | ~~High~~ | ~~Homepage page JS 1.7 MB → 188 B and now `○ Static`; hero image 186 KB → 14 KB~~ |
-| P0 | Re-run Lighthouse on a prod build, all 4 routes (3d.10) | Low | Phase 3b/3c numbers are stale after the redesign |
-| P0 | Run production build baseline (3b.1) | Trivial | Accurate audit; dev overhead gone |
+| P0 | ~~Re-run Lighthouse on a prod build, all 5 routes (3d.10)~~ | ~~Low~~ | ~~Done — see Phase 8; all five routes now 90+ perf, 100 a11y, 100 SEO~~ |
+| P0 | ~~Run production build baseline (3b.1)~~ | ~~Trivial~~ | ~~Done — Phase 8~~ |
+| P0 | ~~Decide `/my-process` (8.8)~~ | ~~Low~~ | ~~Dropped from sitemap — but the page is still empty and its copy still unpublished~~ |
+| P1 | Give `[slug]/page.tsx` a default content branch (8.8) | Low | Publishes `/my-process`; stops *any* new Studio page rendering blank |
+| P2 | ~~Resolve `/home` duplicate of `/` (8.9)~~ | ~~Trivial~~ | ~~301 added in next.config.js~~ |
 | P0 | Replace Flowbite Carousel (3b.2) | Medium | page.js 1,092 ms long task → < 100 ms; TBT → < 200 ms; TTI → < 5 s |
 | P0 | Add `sizes` to gallery grid images (3c.2) | Low | 2,647 KiB payload reduction on /gallery; TTI improvement |
 | P0 | Add `priority` to first gallery image (3c.1) | Trivial | Gallery LCP 10.8 s → < 2.5 s |
@@ -655,8 +724,8 @@ Monitor monthly rankings for:
 | P1 | Fix render-blocking CSS on gallery (3c.3) | Low | Blocked by 3b.2+3b.3; verify after Flowbite removal |
 | P1 | Fix heading order on gallery page (3c.4) | Low | Accessibility; consistent across all routes |
 | ❌ | ~~Replace nav header CSS background (3b.4)~~ | — | Will not do — inverted by 3d.11; tile must stay a CSS background |
-| P1 | Update browserslist targets (3b.5) | Trivial | 9 KB legacy JS savings |
-| P1 | Fix touch target spacing (3b.6) | Trivial | Closes remaining accessibility violation |
+| P1 | ~~Update browserslist targets (3b.5)~~ | ~~Trivial~~ | ~~Done — but the polyfills are in a Next-vendored chunk, so no change; see 3b.5~~ |
+| P1 | ~~Fix touch target spacing (3b.6)~~ | ~~Trivial~~ | ~~No longer reproduces after the Phase 3d CTA rework~~ |
 | P1 | ~~Fix "Read More" link text (3a.8)~~ | ~~Trivial~~ | ~~SEO 92 → 100~~ |
 | P1 | ~~Fix ARIA role="list" (3a.4)~~ | ~~Low~~ | ~~Accessibility~~ |
 | P1 | ~~Fix color contrast gray-400 (3a.5)~~ | ~~Trivial~~ | ~~Accessibility~~ |
@@ -682,10 +751,15 @@ Monitor monthly rankings for:
 
 | File | Purpose |
 |------|---------|
-| `app/(site)/layout.tsx` | Root metadata, structured data, `bg-cream` body, font variables |
+| `app/(site)/layout.tsx` | Root metadata, structured data, `bg-cream` body, font variables. **No `keywords`** — removed sitewide 2026-08-17 (redesign doc 6.B3); do not re-add |
 | `app/(site)/fonts.ts` | Single place all three fonts are instantiated |
 | `app/(site)/Components/PageHero.tsx` | Shared bounded hero band (`size="lg"` / `"sm"`) — carries the `<h1>`; tiled `bg-site-bg-image` + cream scrim |
 | `app/(site)/Components/Section.tsx` | Shared vertical rhythm + width + `tint` band |
+| `app/(site)/Components/FAQ.tsx` | **The only FAQ file.** Owns `homeFaqs` and renders it twice — visible `<details>` list + `FAQPage` JSON-LD — from one array, so they cannot drift. Edit the copy here and both update. Replaced `FAQSchema.tsx` + `FAQList.tsx` on 2026-08-17 |
+| `app/(site)/Components/ProcessSteps.tsx` | "What to expect" four-step block, rendered on `/service-area`. No competitor comparisons — see Phase 7.4. (The confusable `Components/Process.tsx` was deleted 2026-08-17 — dead code, zero importers) |
+| `app/(site)/service-area/cities.ts` | **Single source of truth for the service area list.** Just `serviceAreas: string[]` since Phase 7 — no per-town copy. The hub, `app/sitemap.ts`, and `Footer.tsx` all import it — do not re-list towns anywhere |
+| `app/(site)/service-area/page.tsx` | **The one service area page.** Two-column copy + photo, town list, `ProcessSteps`. Replaced 13 per-city pages on 2026-08-17; see `docs/service-area-redesign.md` § Phase 7 before adding any per-town copy back |
+| `next.config.js` | Apex → www redirect, plus `/service-area/:city` → `/service-area` (Phase 7.1). Keep the latter even after the old URLs age out of the index |
 | `app/(site)/page.tsx` | Home page — PageHero → Recent Work grid → About |
 | `app/(site)/[slug]/page.tsx` | Dynamic pages — `generateMetadata()` lives here |
 | `app/(site)/Components/StructuredData.tsx` | JSON-LD schemas (LocalBusiness, Service) |
@@ -694,7 +768,8 @@ Monitor monthly rankings for:
 | `app/(site)/Components/Nav.tsx` | Custom Tailwind nav — no Flowbite; hamburger via useState; `bg-site-bg-image` tile (shared with PageHero); not sticky |
 | `app/(site)/Components/Footer.tsx` | Footer with WIA badge, `bg-cream-deep`; section headings are `<h3>`; copyright bar currently commented out |
 | `tailwind.config.js` | `colors.cream` / `cream.deep` palette + `bg-site-bg-image` tile — the shared design tokens |
-| `app/sitemap.ts` | Dynamic sitemap generation |
+| `sanity/image.ts` | `thumbnail4x3()` — asks the Sanity CDN for the 4:3 crop a grid thumbnail actually displays, instead of shipping the full portrait upload. Use for any `aspect-[4/3]` + `object-cover` box; **not** for the full-photo detail page |
+| `app/sitemap.ts` | Dynamic sitemap generation. Lists every Sanity `page`, including `my-process`, which currently renders empty — see Phase 8.8 |
 | `app/robots.ts` | Crawler directives |
 | `sanity/schemas/page-schema.ts` | CMS page type — has SEO fields |
 | `sanity/schemas/project-schema.ts` | CMS project type — SEO fields + `featured` / `featuredOrder` for the homepage grid |

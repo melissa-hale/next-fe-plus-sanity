@@ -112,7 +112,7 @@ export default async function ProjectPage({ params }: Props) {
     <div>
       <ProjectSchema project={project} />
 
-      <PageHero size="sm">
+      <PageHero size="sm" width="narrow">
         <Link
           href="/gallery"
           className="mb-4 inline-block text-sm font-medium text-green-800 hover:text-green-600"
@@ -124,7 +124,7 @@ export default async function ProjectPage({ params }: Props) {
         </h1>
       </PageHero>
 
-      <Section width="narrow">
+      <Section width="narrow" spacing="tight">
         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md">
           <Image
             src={project.image}

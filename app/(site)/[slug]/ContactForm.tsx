@@ -3,7 +3,7 @@
 import { PortableTextBlock } from "sanity";
 import { PortableText } from "@portabletext/react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Success from "./Components/Success";
 import Failure from "./Components/Failure";
@@ -43,9 +43,32 @@ export default function ContactForm({ content }: Props) {
   const {
     register,
     reset,
+    setValue,
     formState: { errors },
     handleSubmit,
   } = useForm<IFormInput>(formOptions);
+
+  // Service area pages link here as /contact?city=<slug> so a visitor arriving
+  // from one doesn't have to retype where they are, and so leads carry which
+  // city page produced them.
+  //
+  // Read from `window` rather than `useSearchParams()`: in Next 13 that hook
+  // opts the whole route segment out of static rendering unless it sits inside
+  // a Suspense boundary, and this is only a convenience prefill.
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("city");
+    // The value ends up in an email, so accept only the shape our own links
+    // produce — and stay inside the field's own 20-character limit.
+    if (!slug || !/^[a-z]+(-[a-z]+)*$/i.test(slug) || slug.length > 20) return;
+
+    setValue(
+      "cty",
+      slug
+        .split("-")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ")
+    );
+  }, [setValue]);
 
   const onSubmit: SubmitHandler<IFormInput> = (data, e) => {
     // Used to Abort a long running fetch.
@@ -110,27 +133,33 @@ export default function ContactForm({ content }: Props) {
         } else {
           return (
             <>
+              {/* The page goes <h1> (PageHero) straight to the footer's <h3>s,
+                  which fails the sequential-heading rule. Same fix the gallery
+                  grid already carries. */}
+              <h2 className="sr-only">Get in touch</h2>
               <div className="mb-12 text-lg leading-relaxed text-gray-800">
                 <p>
                   Feel free to 
                   <a
                     href="tel:+18327883667"
-                    className="text-gray-700 hover:text-green-700 mx-1"
+                    className="text-green-700 hover:text-green-700 mx-1 font-bold"
                   >
                     <span className="text-sm">&#9742;</span> call
                   </a>
                   or 
                   <a
                     href="sms:+18327883667"
-                    className="text-gray-700 hover:text-green-700 mx-1"
+                    className="text-green-700 hover:text-green-700 mx-1 mr-2 font-bold"
                   >
                     <span className="text-sm">&#128172;</span> text
                   </a>
-                  me at (832)788-3667. 
+                   me anytime at (832)788-3667. 
                   </p>
-                  <p>Or submit the form below to get in touch. Looking
-                  forward to hearing from you!
-                </p>
+                  <p>You can also submit the form below, and I&apos;ll get back to you as soon as I can. </p>
+                    
+                    <p>Looking
+                  forward to hearing from you!</p>
+                
               </div>
               <form
                 className="w-full center max-w-lg mx-auto"
