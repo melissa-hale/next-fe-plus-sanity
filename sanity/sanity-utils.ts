@@ -50,6 +50,31 @@ export async function getFeaturedProjects(limit = 6): Promise<Project[]> {
   return (featured.length > 0 ? featured : projects).slice(0, limit);
 }
 
+/**
+ * Newest gallery projects, for pages that just need a photo or two.
+ *
+ * Was `getProjectsForCity`, which rotated the list by a city's index so no two
+ * of the 13 city landing pages opened on the same image. Those pages are gone
+ * (docs/service-area-redesign.md § Phase 7) and there is only one caller left,
+ * so the rotation is gone with them.
+ *
+ * There is no per-location photo inventory — every photo here comes from the
+ * same gallery and none of them is attributable to a town. Callers must not
+ * label them geographically: no "our work in {town}" headings, no place names
+ * in alt text. That rule outlived the city pages and still applies.
+ */
+export async function getGalleryProjects(count = 4): Promise<Project[]> {
+  const projects: Project[] = await createClient(clientConfig).fetch(
+    // `defined(image.asset)` guards next/image, which throws on an empty src if
+    // a project is published before its photo is uploaded.
+    groq`*[_type == "project" && defined(image.asset)] | order(_createdAt desc){${projectFields}}`,
+    {},
+    cacheOptions
+  );
+
+  return projects.slice(0, count);
+}
+
 export async function getProject(slug: string): Promise<Project> {
   return createClient(clientConfig).fetch(
     groq`*[_type == "project" && slug.current == $slug][0]{

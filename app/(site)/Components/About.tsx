@@ -17,7 +17,7 @@ export default async function About() {
   }
 
   return (
-    <Section width="narrow">
+    <Section width="narrow" className='bg-cream-deep'>
       <h2 className="font-headers text-3xl font-extrabold text-green-900 md:text-4xl">
         About Don Dye
       </h2>

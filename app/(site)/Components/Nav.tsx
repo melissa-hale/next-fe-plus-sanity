@@ -37,9 +37,9 @@ export default function Header() {
           <a href="/contact">
             <button
               type="button"
-              className="text-gray-200 bg-green-900 px-6 py-3  shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-100 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300 font-medium rounded-md text-sm  text-center min-h-[44px]"
+              className="text-amber-200 bg-green-900 px-6 py-3  shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-100 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300 font-medium rounded-md text-sm  text-center min-h-[44px]"
             >
-              Contact Us
+              Contact Don
             </button>
           </a>
           <button

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Section from './Section'
 import { Project } from '@/types/Project'
+import { thumbnail4x3 } from '@/sanity/image'
 
 type Props = {
   projects: Project[]
@@ -33,10 +34,18 @@ export default function Gallery({ projects }: Props) {
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src={project.image}
+                  src={thumbnail4x3(project.image)}
                   alt={project.alt ?? project.name}
                   fill
                   priority={index === 0}
+                  // These thumbnails are the LCP element on this route. At the
+                  // default q=75 the optimizer's AVIF is actually *larger* than
+                  // its WebP (126 KB vs 114 KB) so AVIF never pays off; below it
+                  // AVIF wins clearly, and at 60 (with the 4:3 crop above) the
+                  // LCP image lands at ~52 KB against 114 KB originally.
+                  // Invisible in a ~364px-wide box; the full-size photo on
+                  // /gallery/[slug] keeps the default quality.
+                  quality={60}
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                 />

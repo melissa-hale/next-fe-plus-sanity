@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { getFeaturedProjects } from '@/sanity/sanity-utils'
 import About from './Components/About'
+import FAQ from './Components/FAQ'
 import Gallery from './Components/Gallery'
 import Home from './Components/Home'
-import { FAQSchema } from './Components/FAQSchema'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -15,10 +15,12 @@ export default async function Landing() {
 
   return (
     <>
-      <FAQSchema />
       <Home />
       <Gallery projects={projects} />
       <About />
+      {/* Last block before the footer on purpose: these are objection-handling
+          questions, so they belong after the work and the pitch, not before. */}
+      <FAQ />
     </>
   )
 }

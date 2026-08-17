@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import wialogo from "../../../public/wialogo.jpg";
+import { serviceAreas } from "../service-area/cities";
 
 export default async function Footer() {
   return (
@@ -12,15 +13,10 @@ export default async function Footer() {
           {/* <!--First links section--> */}
           <div className="mb-6">
             <h3 className="mb-2.5 font-bold text-neutral-800">
-              Business Hours
+              Wallcoverings by Don Dye
             </h3>
 
-            <ul className="mb-0 list-none">
-              <li className="text-neutral-800">
-                <p>Monday through Friday,</p>
-                <p>8a-5p</p>
-              </li>
-            </ul>
+            <p>Professional Wallpaper Installation in Central Texas</p>
           </div>
 
           {/* <!--Second links section--> */}
@@ -76,34 +72,22 @@ export default async function Footer() {
 
           {/* <!--Service Areas section--> */}
           <div className="mb-6">
-            <h3 className="mb-2.5 font-bold text-neutral-800">Service Areas</h3>
+            <h3 className="mb-2.5 font-bold text-neutral-800">
+              <Link
+                href="/service-area"
+                className="text-neutral-800 hover:text-green-700"
+              >
+                Service Areas
+              </Link>
+            </h3>
 
-            <p className="text-sm text-neutral-800 leading-relaxed">
-              {[
-                { name: "Austin", slug: "austin" },
-                { name: "Round Rock", slug: "round-rock" },
-                { name: "Cedar Park", slug: "cedar-park" },
-                { name: "Georgetown", slug: "georgetown" },
-                { name: "Pflugerville", slug: "pflugerville" },
-                { name: "Kyle", slug: "kyle" },
-                { name: "Buda", slug: "buda" },
-                { name: "San Marcos", slug: "san-marcos" },
-                { name: "Lakeway", slug: "lakeway" },
-                { name: "Dripping Springs", slug: "dripping-springs" },
-                { name: "Leander", slug: "leander" },
-                { name: "Manor & Hutto", slug: "manor" },
-                { name: "Westlake Hills", slug: "westlake-hills" },
-              ].map(({ name, slug }, i, arr) => (
-                <span key={slug}>
-                  <Link
-                    href={`/service-area/${slug}`}
-                    className="text-gray-700 hover:text-green-700"
-                  >
-                    {name}
-                  </Link>
-                  {i < arr.length - 1 && ", "}
-                </span>
-              ))}
+            {/* Plain text, not links. Each town used to link to its own page;
+                those were consolidated into /service-area on 2026-08-17, so
+                thirteen footer links would now all point at the same URL — the
+                heading above already goes there. Driven by the shared config so
+                this can't drift from the page. See ../service-area/cities.ts */}
+            <p className="text-sm text-gray-700 leading-relaxed">
+              {serviceAreas.join(", ")}
             </p>
           </div>
         </div>

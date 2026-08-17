@@ -22,7 +22,6 @@ module.exports = {
         },
       },
       fontFamily: {
-        'montserrat': ['var(--font-montserrat)', 'sans-serif'],
         'sans': ['var(--font-inter)'],
         'headers': ['var(--font-dancing)']
       },

@@ -19,6 +19,10 @@ export default async function About({ content }: Props) {
 
   return (
     <>
+      {/* The page goes <h1> (PageHero) straight to the footer's <h3>s, which
+          fails the sequential-heading rule. Same fix the gallery grid already
+          carries. */}
+      <h2 className="sr-only">About Don Dye</h2>
       <div className="text-lg leading-relaxed text-gray-800">
         <PortableText value={content} components={serializer} />
       </div>
