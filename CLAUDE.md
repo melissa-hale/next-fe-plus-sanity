@@ -242,6 +242,14 @@ remaining point is LCP. Best Practices 96 is the localhost-only Vercel Analytics
 
 - [x] **8.9** `/home` was a second, reachable copy of the home page *(2026-08-17 — the Sanity page `home` rendered at `/home` and self-canonicalised to `/home`, duplicating `/`. `next.config.js` now 301s `/home` → `/` (Next emits 308, which Google treats the same). It was already excluded from the sitemap, so this only closes off stray inbound or internal links.)*
 
+### Phase 9 — Page Flow (2026-08-18)
+
+- [x] **9.1** Move `ProcessSteps` from `/service-area` to the home page *(2026-08-18 — the four steps describe **working with Don**, which is a home page question; `/service-area` answers "do you cover my town" and does not need them. Rendered after `About`: the work (Recent Work) → who he is (About) → how the job goes (What to expect) → objections (FAQ). `ProcessSteps` now renders its own `<Section width="wide">` instead of relying on the caller to wrap it, matching `Gallery`, `About`, and `FAQ`, so `page.tsx` just stacks components. Its `<h2>` went `text-2xl md:text-3xl` → `text-3xl md:text-4xl` to sit level with the other home page section headings; it keeps `font-bold`, which is correct — see 3d.16 on why `font-extrabold` on `font-headers` synthesizes.)*
+
+- [x] **9.2** `/service-area` links to the gallery and ends on the ask *(2026-08-18 — two links to `/gallery`: the 4:3 photo is now a `<Link>` (with the same `group-hover:scale-[1.03]` the grid thumbnails use), and the second button in the intro row is an amber **"See recent work"**. The green "Request a free estimate" that used to sit there moved to a new closing `Section` at the foot of the page, so the same primary button no longer appears twice and the page ends on the conversion action. The closing block repeats the phone as a plain text link, not a third button. This keeps the documented two-tier CTA split intact — green converts, amber navigates — see 3d.8.)*
+
+- [x] **9.3** Same closing CTA on the home page, and both are now one component *(2026-08-18 — the home page ended on the FAQ, i.e. on objection handling with nothing to click. It now closes with the same block, after `FAQ`. Extracted to **`Components/ClosingCTA.tsx`** rather than copied: the two differ only in `heading`, `body`, and `tint`, and a hand-copied CTA is exactly the kind of duplication that drifts — the primary button string in 3d.8 is already duplicated across seven call sites. The home page instance is `tint` (`bg-cream-deep`) because the FAQ above it is untinted and the band is what separates them; `/service-area` stays untinted because its town list is already tinted. Both routes still build `○ Static` at 188 B.)*
+
 ### Phase 4 — Off-Page & Authority
 
 - [ ] **4.1** Audit and fully optimize Google Business Profile (photos, categories, description, hours, Q&A, services)
@@ -762,11 +770,12 @@ Monitor monthly rankings for:
 | `app/(site)/Components/PageHero.tsx` | Shared bounded hero band (`size="lg"` / `"sm"`) — carries the `<h1>`; tiled `bg-site-bg-image` + cream scrim |
 | `app/(site)/Components/Section.tsx` | Shared vertical rhythm + width + `tint` band |
 | `app/(site)/Components/FAQ.tsx` | **The only FAQ file.** Owns `homeFaqs` and renders it twice — visible `<details>` list + `FAQPage` JSON-LD — from one array, so they cannot drift. Edit the copy here and both update. Replaced `FAQSchema.tsx` + `FAQList.tsx` on 2026-08-17 |
-| `app/(site)/Components/ProcessSteps.tsx` | "What to expect" four-step block, rendered on `/service-area`. No competitor comparisons — see Phase 7.4. (The confusable `Components/Process.tsx` was deleted 2026-08-17 — dead code, zero importers) |
+| `app/(site)/Components/ClosingCTA.tsx` | The block a page ends on — one green primary CTA into `/contact`, phone repeated below as a text link, not a second button. Shared by the home page (`tint`) and `/service-area` (untinted, since the town list above it is tinted); only `heading` and `body` differ. Carries the 3d.8 primary CTA string verbatim — edit it here, not at the call sites |
+| `app/(site)/Components/ProcessSteps.tsx` | "What to expect" four-step block, rendered on the **home page** after `About` (moved off `/service-area` 2026-08-18, Phase 9.1). Renders its own `Section`, like its home page siblings. No competitor comparisons — see Phase 7.4. (The confusable `Components/Process.tsx` was deleted 2026-08-17 — dead code, zero importers) |
 | `app/(site)/service-area/cities.ts` | **Single source of truth for the service area list.** Just `serviceAreas: string[]` since Phase 7 — no per-town copy. The hub, `app/sitemap.ts`, and `Footer.tsx` all import it — do not re-list towns anywhere |
-| `app/(site)/service-area/page.tsx` | **The one service area page.** Two-column copy + photo, town list, `ProcessSteps`. Replaced 13 per-city pages on 2026-08-17; see `docs/service-area-redesign.md` § Phase 7 before adding any per-town copy back |
+| `app/(site)/service-area/page.tsx` | **The one service area page.** Two-column copy + photo (both the photo and an amber button link to `/gallery`), town list, `ClosingCTA`. `ProcessSteps` left this page on 2026-08-18 — see Phase 9.1. Replaced 13 per-city pages on 2026-08-17; see `docs/service-area-redesign.md` § Phase 7 before adding any per-town copy back |
 | `next.config.js` | Apex → www redirect, plus `/service-area/:city` → `/service-area` (Phase 7.1). Keep the latter even after the old URLs age out of the index |
-| `app/(site)/page.tsx` | Home page — PageHero → Recent Work grid → About |
+| `app/(site)/page.tsx` | Home page — PageHero → Recent Work grid → About → What to expect → FAQ → ClosingCTA |
 | `app/(site)/[slug]/page.tsx` | Dynamic pages — `generateMetadata()` lives here |
 | `app/(site)/Components/StructuredData.tsx` | JSON-LD schemas (LocalBusiness, Service) |
 | `app/(site)/Components/Gallery.tsx` | Homepage "Recent Work" static grid — server component, no carousel |

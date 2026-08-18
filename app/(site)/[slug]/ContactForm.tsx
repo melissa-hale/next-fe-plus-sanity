@@ -138,7 +138,7 @@ export default function ContactForm({ content }: Props) {
                   grid already carries. */}
               <h2 className="sr-only">Get in touch</h2>
               <div className="mb-12 text-lg leading-relaxed text-gray-800">
-                <p>
+                <p className="mb-8">
                   Feel free to 
                   <a
                     href="tel:+18327883667"
@@ -155,7 +155,7 @@ export default function ContactForm({ content }: Props) {
                   </a>
                    me anytime at (832)788-3667. 
                   </p>
-                  <p>You can also submit the form below, and I&apos;ll get back to you as soon as I can. </p>
+                  <p className="mb-8">You can also submit the form below, and I&apos;ll get back to you as soon as I can. </p>
                     
                     <p>Looking
                   forward to hearing from you!</p>
@@ -165,8 +165,8 @@ export default function ContactForm({ content }: Props) {
                 className="w-full center max-w-lg mx-auto"
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <div className="flex flex-wrap -mx-3 mb-2">
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div className="flex flex-wrap gap-y-6 -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3">
                     <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-first-name"
@@ -180,14 +180,14 @@ export default function ContactForm({ content }: Props) {
                         pattern: /^[A-Za-z]+$/i,
                       })}
                       aria-invalid={errors.fName ? "true" : "false"}
-                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-first-name"
                       type="text"
                       placeholder="Jane"
                       autoComplete="off"
                     />
                     {errors.fName?.type === "required" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * First name is required
                       </p>
                     )}
@@ -213,14 +213,14 @@ export default function ContactForm({ content }: Props) {
                       autoComplete="off"
                     />
                     {errors.lName?.type === "required" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * Last name is required
                       </p>
                     )}
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-2">
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div className="flex flex-wrap gap-y-6 -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3">
                     <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-email"
@@ -234,19 +234,19 @@ export default function ContactForm({ content }: Props) {
                         pattern: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
                       })}
                       aria-invalid={errors.em ? "true" : "false"}
-                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-email"
                       type="text"
                       placeholder="Jane@email.com"
                       autoComplete="off"
                     />
                     {errors.em?.type === "required" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * Email is required
                       </p>
                     )}
                     {errors.em?.type === "pattern" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * Please enter a valid email address
                       </p>
                     )}
@@ -270,13 +270,13 @@ export default function ContactForm({ content }: Props) {
                       autoComplete="off"
                     />
                     {errors.phn?.type === "required" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * Phone is required
                       </p>
                     )}
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="flex flex-wrap gap-y-6 -mx-3 mb-6">
                   <div className="w-full px-3">
                     <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -289,14 +289,14 @@ export default function ContactForm({ content }: Props) {
                         required: true,
                         maxLength: 40,
                       })}
-                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-address"
                       type="text"
                       placeholder="123 Main Street"
                       autoComplete="off"
                     />
                     {errors.adr?.type === "required" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * Address is required
                       </p>
                     )}
@@ -305,8 +305,8 @@ export default function ContactForm({ content }: Props) {
                                 </p> */}
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <div className="flex flex-wrap gap-y-6 -mx-3 mb-6">
+                  <div className="w-full md:w-1/3 px-3">
                     <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-city"
@@ -322,12 +322,12 @@ export default function ContactForm({ content }: Props) {
                       autoComplete="off"
                     />
                     {errors.cty?.type === "required" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * City is required
                       </p>
                     )}
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/3 px-3">
                     <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-state"
@@ -344,7 +344,7 @@ export default function ContactForm({ content }: Props) {
                       </select>
                     </div>
                   </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/3 px-3">
                     <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       htmlFor="grid-zip"
@@ -364,23 +364,23 @@ export default function ContactForm({ content }: Props) {
                       autoComplete="off"
                     />
                     {errors.zp?.type === "required" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * Zip Code is required
                       </p>
                     )}
                     {errors.zp?.type === "maxLength" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * Please enter a valid 5 digit zip code
                       </p>
                     )}
                     {errors.zp?.type === "minLength" && (
-                      <p className="text-red-500" role="alert">
+                      <p className="mt-1 text-red-500" role="alert">
                         * Please enter a valid 5 digit zip code
                       </p>
                     )}
                   </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="flex flex-wrap gap-y-6 -mx-3 mb-6">
                   <div className="w-full px-3">
                     <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -390,7 +390,7 @@ export default function ContactForm({ content }: Props) {
                     </label>
                     <textarea
                       {...register("comments", { maxLength: 200 })}
-                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      className="placeholder-gray-300 appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-comments"
                       rows={4}
                       placeholder="Additional Comments"

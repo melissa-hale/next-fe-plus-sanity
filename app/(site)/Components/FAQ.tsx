@@ -110,7 +110,7 @@ export default function FAQ({ faqs = homeFaqs, heading = 'Common questions' }: P
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      <h2 className="mb-8 font-headers text-2xl font-bold text-green-900 md:text-3xl">
+      <h2 className="mb-8 font-headers text-3xl font-bold text-green-900 md:text-4xl">
         {heading}
       </h2>
 

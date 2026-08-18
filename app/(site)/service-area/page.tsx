@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import PageHero from '../Components/PageHero'
 import Section from '../Components/Section'
-import ProcessSteps from '../Components/ProcessSteps'
+import ClosingCTA from '../Components/ClosingCTA'
 import { serviceAreas } from './cities'
 import { getGalleryProjects } from '@/sanity/sanity-utils'
 import { thumbnail4x3 } from '@/sanity/image'
@@ -98,6 +98,10 @@ export default async function ServiceAreaIndex() {
               If your city is not on the list below, just give me a call.  I&apos;m generally happy to accommodate a wider area depending on my workload.
             </p>
 
+            {/* Two tiers, per the CTA hierarchy: green is the conversion
+                action, amber is navigation. The estimate button that used to
+                sit here is now the closing CTA at the foot of the page, so the
+                same green button doesn't appear twice. */}
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <a
                 href={PHONE_HREF}
@@ -106,16 +110,22 @@ export default async function ServiceAreaIndex() {
                 Call Don — {PHONE_DISPLAY}
               </a>
               <Link
-                href="/contact"
-                className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-md bg-green-900 px-6 py-3 text-center text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
+                href="/gallery"
+                className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-md bg-amber-300 px-6 py-3 text-center text-gray-800 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-350 hover:text-gray-900 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
               >
-                Request a free estimate
+                See recent work
               </Link>
             </div>
           </div>
 
+          {/* The photo links to the gallery too — it is the thing a visitor
+              wants to see next, and clicking a picture of the work to reach
+              more of it needs no explaining. */}
           {photo && (
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md">
+            <Link
+              href="/gallery"
+              className="group relative block aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-amber-300"
+            >
               <Image
                 src={thumbnail4x3(photo.image)}
                 // Describes what is pictured, never where. The gallery carries
@@ -127,20 +137,20 @@ export default async function ServiceAreaIndex() {
                 // default q=75, and this is the LCP element on this route.
                 quality={65}
                 sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover"
+                className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
-            </div>
+            </Link>
           )}
         </div>
       </Section>
 
       <Section width="wide" tint>
-        <h2 className="mb-2 font-headers text-2xl font-bold text-green-900 md:text-3xl">
-          Covered Cities in Central Texas
+        <h2 className="mb-8 font-headers text-2xl font-bold text-green-900 md:text-3xl">
+          Service Areas in Central Texas
         </h2>
-        <p className="mb-8 text-base text-gray-700">
-          Plus the smaller communities in between. Not sure about yours? Call and ask.
-        </p>
+        {/* <p className="mb-8 text-base text-gray-700">
+          
+        </p> */}
 
         {/* Plain names, not links. Each town used to link to its own page; with
             those consolidated here, thirteen links pointing back at this page
@@ -154,9 +164,14 @@ export default async function ServiceAreaIndex() {
         </ul>
       </Section>
 
-      <Section width="wide">
-        <ProcessSteps />
-      </Section>
+      {/* The page ends on the ask. "What to expect" used to close it out, but
+          those steps describe working with Don rather than where he works, so
+          they moved to the home page on 2026-08-18. Shared with the home page —
+          see Components/ClosingCTA. */}
+      <ClosingCTA
+        heading="Ready to get started?"
+        body="I'd love to hear about your project and what you have in mind."
+      />
     </div>
   )
 }
