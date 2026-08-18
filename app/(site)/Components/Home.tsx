@@ -28,7 +28,7 @@ export default async function Home() {
   return (
     <PageHero size="lg">
       <article
-        className="mx-auto max-w-4xl rounded-2xl bg-cream/90 px-10 py-9 text-green-900 shadow-[0px_4px_16px_rgba(17,17,26,0.08),_0px_8px_24px_rgba(17,17,26,0.08)] sm:px-14 md:px-16 md:py-10"
+        className="mx-auto max-w-4xl rounded-2xl bg-cream/90 px-10 pt-9 pb-7 text-green-900 shadow-[0px_4px_16px_rgba(17,17,26,0.08),_0px_8px_24px_rgba(17,17,26,0.08)] sm:px-14 md:px-16 md:pt-10 md:pb-7"
         aria-label="Welcome to Wallcoverings By Don Dye"
       >
         <div className="mb-6">
