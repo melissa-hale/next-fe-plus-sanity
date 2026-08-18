@@ -1,6 +1,7 @@
 // app/(site)/Components/Home.tsx
 import { getPage } from '@/sanity/sanity-utils'
 import { PortableText } from '@portabletext/react'
+import GoogleRating from './GoogleRating'
 import PageHero from './PageHero'
 
 export default async function Home() {
@@ -61,6 +62,13 @@ export default async function Home() {
           >
             Get in Touch Today!
           </a>
+        </div>
+
+        {/* Under the ask, not above it: this is proof that reinforces the click,
+            so it must not pull attention on the way down to the button. Same
+            flex-not-text-center reason as the button above. */}
+        <div className="mt-4 flex justify-center">
+          <GoogleRating />
         </div>
       </article>
     </PageHero>
