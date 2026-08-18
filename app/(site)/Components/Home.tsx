@@ -60,7 +60,7 @@ export default async function Home() {
             href="/contact"
             className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-green-900 px-6 py-3 font-medium text-amber-200 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:text-amber-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-300 text-center"
           >
-            Get in Touch Today!
+            Get in touch today!
           </a>
         </div>
 

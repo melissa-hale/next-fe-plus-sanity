@@ -1,5 +1,6 @@
 import { getPage, getPages } from '@/sanity/sanity-utils'
 import { Metadata } from 'next'
+import ClosingCTA from '../Components/ClosingCTA'
 import Header from './Components/Header'
 import ContactForm from './ContactForm'
 import Gallery from './Gallery'
@@ -106,6 +107,12 @@ export default async function Page({ params }: Props) {
         {page.slug == 'contact' && <ContactForm content={page.content} />}
         {page.slug == 'about' && <About content={page.content} />}
       </Header>
+      {/* Outside <Header> on purpose. Header wraps its children in a
+          max-w Section, so a ClosingCTA rendered in there could only tint a
+          976px column instead of the full viewport band it is meant to be.
+          Same placement as the home page and /service-area: a top-level
+          sibling of the other sections, never nested in one. */}
+      {page.slug == 'gallery' && <ClosingCTA tint />}
     </div>
   )
 }

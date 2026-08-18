@@ -34,9 +34,11 @@ export default function ClosingCTA({
         <h2 className="font-headers text-2xl font-bold text-green-900 md:text-3xl">
           {heading}
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-gray-700">
-          {body}
-        </p>
+        {body && (
+          <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-gray-700">
+            {body}
+          </p>
+        )}
 
         <div className="mt-8 flex justify-center">
           <Link
