@@ -5,9 +5,25 @@ export async function POST(req: Request) {
   const request = await req.json();
   console.log('got the request:', request)
 
-//   return NextResponse.json({ error: false, emailSent: true, errors: []},
-//     { status: 200 })
-//   }
+  // Spam defense — both checks fail closed as a fake success so bots don't
+  // learn to adapt. Real visitors never trip either one: `website` is an
+  // off-screen honeypot they never see, and `ts` is stamped when the form
+  // mounts, well before any human could fill 7 fields.
+  const MIN_FILL_TIME_MS = 3000;
+  const submittedAt = Number(request.ts);
+  const isBot =
+    !!request.website ||
+    !request.ts ||
+    Number.isNaN(submittedAt) ||
+    Date.now() - submittedAt < MIN_FILL_TIME_MS;
+
+  if (isBot) {
+    console.log('blocked spam submission:', request);
+    return NextResponse.json(
+      { error: false, emailSent: true, errors: [] },
+      { status: 200 }
+    );
+  }
 
   const transporter: nodemailer.Transporter = nodemailer.createTransport({
     host: process.env.NEXT_PUBLIC_EMAIL_HOST,
