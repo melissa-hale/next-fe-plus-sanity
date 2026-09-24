@@ -22,6 +22,13 @@ interface IFormInput {
   st: string;
   zp: string;
   comments: string;
+  // Spam defense, both silent to real visitors — see route.ts.
+  // Honeypot: bots that scrape and fill every field in the form fill this
+  // too; real visitors never see it, so it always submits empty.
+  website: string;
+  // Time-trap: timestamped on mount, checked against submit time server-side.
+  // No human fills 7 fields in under a few seconds.
+  ts: string;
 }
 
 export default function ContactForm({ content }: Props) {
@@ -68,6 +75,11 @@ export default function ContactForm({ content }: Props) {
         .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
         .join(" ")
     );
+  }, [setValue]);
+
+  // Stamp render time for the time-trap spam check (route.ts).
+  useEffect(() => {
+    setValue("ts", Date.now().toString());
   }, [setValue]);
 
   const onSubmit: SubmitHandler<IFormInput> = (data, e) => {
@@ -400,6 +412,24 @@ export default function ContactForm({ content }: Props) {
                                 </p> */}
                   </div>
                 </div>
+                {/* Honeypot — invisible to real visitors (off-screen, not
+                    display:none/type=hidden, which some bots detect and
+                    skip), so it stays out of the tab order and screen reader
+                    flow while remaining a normal field bots fill in. */}
+                <div
+                  className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+                  aria-hidden="true"
+                >
+                  <label htmlFor="grid-website">Website</label>
+                  <input
+                    {...register("website")}
+                    id="grid-website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+                <input {...register("ts")} type="hidden" />
                 {/* <div className="md:w-1/3"></div> */}
                 <div className="md:w-2/3">
                   <button
